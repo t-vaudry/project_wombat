@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
         dbHandler = new DBHandler(this);
         runText = (TextView) findViewById(R.id.runText);
         runText2 = (TextView) findViewById(R.id.runText2);
+
+        //SUP BITCHES
     }
 
     @Override

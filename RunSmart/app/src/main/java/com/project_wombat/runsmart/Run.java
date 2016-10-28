@@ -9,14 +9,14 @@ import java.util.Date;
 public class Run {
     private long time_stamp;
     private double distance;
-    private int duration;
+    private long duration;
     private double avg_speed;
     private double top_speed;
     private double heart_rate_before;
     private double heart_rate_after;
 
     public Run(){}
-    public Run(Date time_stamp, double distance, int duration, double avg_speed, double top_speed, double heart_rate_before, double heart_rate_after)
+    public Run(Date time_stamp, double distance, long duration, double avg_speed, double top_speed, double heart_rate_before, double heart_rate_after)
     {
         this.time_stamp = time_stamp.getTime()/1000;
         this.distance = distance;
@@ -29,7 +29,7 @@ public class Run {
 
     public void setTimeStamp(Date time_stamp) { this.time_stamp = time_stamp.getTime()/1000; }
     public void setDistance(double distance) { this.distance = distance; }
-    public void setDuration(int duration) { this.duration = duration; }
+    public void setDuration(long duration) { this.duration = duration; }
     public void setAvgSpeed(double avg_speed) { this.avg_speed = avg_speed; }
     public void setTopSpeed(double top_speed) { this.top_speed = top_speed; }
     public void setHeartRateBefore(double heart_rate_before) { this.heart_rate_before = heart_rate_before; }
@@ -37,7 +37,7 @@ public class Run {
 
     public long getTimeStamp() { return time_stamp; }
     public double getDistance() { return distance; }
-    public int getDuration() { return duration; }
+    public long getDuration() { return duration; }
     public double getAvgSpeed() { return avg_speed; }
     public double getTopSpeed() { return top_speed; }
     public double getHeartRateBefore() { return heart_rate_before; }

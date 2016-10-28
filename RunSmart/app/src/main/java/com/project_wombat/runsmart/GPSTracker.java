@@ -2,6 +2,7 @@ package com.project_wombat.runsmart;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.IntentService;
 import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,14 +18,18 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-
+import java.util.Date;
 /**
  * Created by anita on 2016-10-27.
  */
 
-public class GPSTracker extends Service implements LocationListener {
+public class GPSTracker extends IntentService implements LocationListener {
 
-    private final Context mContext;
+    private final Context mContext = this;
+    DBHandler dbHandler = new DBHandler(mContext);
+
+    // flag to collect data
+    boolean collectData = false;
 
     // flag for GPS status
     boolean isGPSEnabled = false;
@@ -35,9 +40,19 @@ public class GPSTracker extends Service implements LocationListener {
     public int MY_PERMISSION = 1;
     boolean canGetLocation = false;
 
+    Date beginningOfDataCollection;
+    Date now;
+    Date prev;
+
+    double prev_latitude;
+    double prev_longitude;
+
     Location location; // location
-    double latitude; // latitude
-    double longitude; // longitude
+    double curr_latitude; // latitude
+    double curr_longitude; // longitude
+
+    double curr_distance = 0;
+    double curr_speed = 0;
 
     // The minimum distance to change Updates in meters
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 5; // 5 meters
@@ -48,10 +63,8 @@ public class GPSTracker extends Service implements LocationListener {
     // Declaring a Location Manager
     protected LocationManager locationManager;
 
-    public GPSTracker(Context context) {
-        this.mContext = context;
-        showSettingsAlert();
-        getLocation();
+    public GPSTracker() {
+        super("Service");
     }
 
     public void getLocation() {
@@ -82,8 +95,8 @@ public class GPSTracker extends Service implements LocationListener {
                         location = locationManager
                                 .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                         if (location != null) {
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
+                            curr_latitude = location.getLatitude();
+                            curr_longitude = location.getLongitude();
                         }
                     }
                 }
@@ -99,8 +112,8 @@ public class GPSTracker extends Service implements LocationListener {
                             location = locationManager
                                     .getLastKnownLocation(LocationManager.GPS_PROVIDER);
                             if (location != null) {
-                                latitude = location.getLatitude();
-                                longitude = location.getLongitude();
+                                curr_latitude = location.getLatitude();
+                                curr_longitude = location.getLongitude();
                             }
                         }
                     }
@@ -117,11 +130,11 @@ public class GPSTracker extends Service implements LocationListener {
      * */
     public double getLatitude(){
         if(location != null){
-            latitude = location.getLatitude();
+            curr_latitude = location.getLatitude();
         }
 
         // return latitude
-        return latitude;
+        return curr_latitude;
     }
 
     /**
@@ -129,11 +142,11 @@ public class GPSTracker extends Service implements LocationListener {
      * */
     public double getLongitude(){
         if(location != null){
-            longitude = location.getLongitude();
+            curr_longitude = location.getLongitude();
         }
 
         // return longitude
-        return longitude;
+        return curr_longitude;
     }
 
     /**
@@ -176,6 +189,80 @@ public class GPSTracker extends Service implements LocationListener {
 
         // Showing Alert Message
         alertDialog.show();
+    }
+
+    public double getDistance(double lat1, double lon1, double lat2, double lon2)
+    {
+        float R = 6371; // Radius of the earth in km
+        double dLat = deg2rad(lat2-lat1);  // deg2rad below
+        double dLon = deg2rad(lon2-lon1);
+        double a =
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+                                Math.sin(dLon/2) * Math.sin(dLon/2)
+                ;
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        double d = (R * c)*1000; // Distance in m
+        return d;
+    }
+
+    public double deg2rad(double deg) {
+        return deg * (Math.PI/180);
+    }
+
+    public double getSpeed()
+    {
+        return curr_speed;
+    }
+
+    public double getDistance()
+    {
+        return curr_distance;
+    }
+
+    @Override
+    protected void onHandleIntent(Intent intent)
+    {
+        double distanceDifferential = 0;
+
+        curr_distance = 0;
+        beginningOfDataCollection = new Date();
+        now = new Date();
+
+        RunData rd;
+        while(StaticData.getInstance().getCollectData())
+        {
+            getLocation();
+
+            //Set now to current time
+            now = new Date();
+
+            curr_latitude = getLatitude();
+            curr_longitude = getLongitude();
+
+            if (prev_longitude == 0.0 || prev_latitude == 0.0)
+            {
+                distanceDifferential = 0.0;
+                curr_speed = 0.0;
+            }
+            else
+            {
+                distanceDifferential = getDistance(curr_latitude, curr_longitude, prev_latitude, prev_longitude);
+                curr_speed = distanceDifferential/((now.getTime()-prev.getTime())/1000);
+            }
+            curr_distance += distanceDifferential;
+
+            rd = new RunData(beginningOfDataCollection, curr_speed, curr_latitude, curr_longitude, now.getTime()-beginningOfDataCollection.getTime());
+            dbHandler.addRunData(rd);
+
+            prev_latitude = curr_latitude;
+            prev_longitude = curr_longitude;
+            prev = now;
+        }
+
+        //Log entire run to database
+        Run run = new Run(beginningOfDataCollection, curr_distance, now.getTime()-beginningOfDataCollection.getTime(), 0.0, 0.0, 0.0, 0.0);
+        dbHandler.addRun(run);
     }
 
     @Override

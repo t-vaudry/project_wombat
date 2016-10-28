@@ -34,31 +34,6 @@ public class MainActivity extends AppCompatActivity {
         dbHandler = new DBHandler(this);
         runText = (TextView) findViewById(R.id.runText);
         runText2 = (TextView) findViewById(R.id.runText2);
-
-        /*if ( ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
-
-            ActivityCompat.requestPermissions( this, new String[] {  android.Manifest.permission.ACCESS_COARSE_LOCATION  },
-                    gps.MY_PERMISSION );
-        }*/
-
-        if ( Build.VERSION.SDK_INT >= 23 &&
-                ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_CONTACTS},
-                    MY_PERMISSION);
-        }
-
-        gps = new GPSTracker(this);
-        if (gps.canGetLocation())
-        {
-            Log.d(TAG, "Can get location.");
-        }
-        else
-        {
-            Log.d(TAG, "Can NOT get location.");
-        }
     }
 
     @Override
@@ -78,11 +53,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void updateLocation(View view)
+    public void startRun(View view)
     {
-        gps.getLocation();
-        double lat = gps.getLatitude();
-        double lon = gps.getLongitude();
-        locationButton.setText("Lat: " + Double.toString(lat) + " Lon: " + Double.toString(lon));
+        Intent intent = new Intent(this, RunActivity.class);
+        startActivity(intent);
     }
 }

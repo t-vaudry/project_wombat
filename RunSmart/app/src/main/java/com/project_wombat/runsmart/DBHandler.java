@@ -151,7 +151,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		Run run = new Run(
 		new Date(Long.parseLong(cursor.getString(0))*1000),
 		Double.parseDouble(cursor.getString(1)),
-		Integer.parseInt(cursor.getString(2)),
+		Long.parseLong(cursor.getString(2)),
 		Double.parseDouble(cursor.getString(3)),
 		Double.parseDouble(cursor.getString(4)),
 		Double.parseDouble(cursor.getString(5)),
@@ -179,7 +179,7 @@ public class DBHandler extends SQLiteOpenHelper {
 			Run run = new Run();
 			run.setTimeStamp(new Date(Long.parseLong(cursor.getString(0))*1000));
 			run.setDistance(Double.parseDouble(cursor.getString(1)));
-			run.setDuration(Integer.parseInt(cursor.getString(2)));
+			run.setDuration(Long.parseLong(cursor.getString(2)));
 			run.setAvgSpeed(Double.parseDouble(cursor.getString(3)));
 			run.setTopSpeed(Double.parseDouble(cursor.getString(4)));
 			run.setHeartRateBefore(Double.parseDouble(cursor.getString(5)));
@@ -210,7 +210,7 @@ public class DBHandler extends SQLiteOpenHelper {
 				Run run = new Run();
 				run.setTimeStamp(new Date(Long.parseLong(cursor.getString(0))*1000));
 				run.setDistance(Double.parseDouble(cursor.getString(1)));
-				run.setDuration(Integer.parseInt(cursor.getString(2)));
+				run.setDuration(Long.parseLong(cursor.getString(2)));
 				run.setAvgSpeed(Double.parseDouble(cursor.getString(3)));
 				run.setTopSpeed(Double.parseDouble(cursor.getString(4)));
 				run.setHeartRateBefore(Double.parseDouble(cursor.getString(5)));
@@ -429,7 +429,7 @@ public class DBHandler extends SQLiteOpenHelper {
 				runData.setSpeed(Double.parseDouble(cursor.getString(1)));
 				runData.setLatitude(Double.parseDouble(cursor.getString(2)));
 				runData.setLongitude(Double.parseDouble(cursor.getString(3)));
-				runData.setTimeElapsed(Integer.parseInt(cursor.getString(4)));
+				runData.setTimeElapsed(Long.parseLong(cursor.getString(4)));
 				
 				// Add runData to list
 				runDataList.add(runData);
@@ -437,6 +437,37 @@ public class DBHandler extends SQLiteOpenHelper {
 		}
 
         cursor.close();
+		// return runData list
+		return runDataList;
+	}
+
+	public List<RunData> getAllRunData()
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		List<RunData> runDataList = new ArrayList<RunData>();
+
+		String selectQuery = "SELECT * FROM " + TABLE_RUNDATA;
+
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst())
+		{
+			do
+			{
+				RunData runData = new RunData();
+				runData.setTimeStamp(new Date(Long.parseLong(cursor.getString(0))*1000));
+				runData.setSpeed(Double.parseDouble(cursor.getString(1)));
+				runData.setLatitude(Double.parseDouble(cursor.getString(2)));
+				runData.setLongitude(Double.parseDouble(cursor.getString(3)));
+				runData.setTimeElapsed(Long.parseLong(cursor.getString(4)));
+
+				// Add runData to list
+				runDataList.add(runData);
+			} while (cursor.moveToNext());
+		}
+
+		cursor.close();
 		// return runData list
 		return runDataList;
 	}

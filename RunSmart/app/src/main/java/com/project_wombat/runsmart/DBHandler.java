@@ -38,6 +38,8 @@ public class DBHandler extends SQLiteOpenHelper {
 	private static final String KEY_HEART_RATE_BEFORE = "heart_rate_before";
 	private static final String KEY_HEIGHT = "height";
 	private static final String KEY_ID = "id";
+	private static final String KEY_LATITUDE = "latitude";
+	private static final String KEY_LONGITUDE = "longitude";
 	private static final String KEY_NAME = "name";
 	private static final String KEY_SEX = "sex";
 	private static final String KEY_SPEED = "speed";
@@ -82,6 +84,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		// Create runData table
 		CREATE_TABLE = "CREATE TABLE " + TABLE_RUNDATA + "("
 		+ KEY_TIME_STAMP + " INTEGER PRIMARY KEY," + KEY_SPEED
+		+ " REAL," + KEY_LATITUDE + " REAL," + KEY_LONGITUDE
 		+ " REAL," + KEY_TIME_ELAPSED + " INTEGER" + ")";
 		db.execSQL(CREATE_TABLE);
 
@@ -396,6 +399,8 @@ public class DBHandler extends SQLiteOpenHelper {
 		ContentValues values = new ContentValues();
 		values.put(KEY_TIME_STAMP, runData.getTimeStamp());
 		values.put(KEY_SPEED, runData.getSpeed());
+		values.put(KEY_LATITUDE, runData.getLatitude());
+		values.put(KEY_LONGITUDE, runData.getLongitude());
 		values.put(KEY_TIME_ELAPSED, runData.getTimeElapsed());
 
 		// Inserting row
@@ -422,7 +427,9 @@ public class DBHandler extends SQLiteOpenHelper {
 				RunData runData = new RunData();
 				runData.setTimeStamp(new Date(Long.parseLong(cursor.getString(0))*1000));
 				runData.setSpeed(Double.parseDouble(cursor.getString(1)));
-				runData.setTimeElapsed(Integer.parseInt(cursor.getString(2)));
+				runData.setLatitude(Double.parseDouble(cursor.getString(2)));
+				runData.setLongitude(Double.parseDouble(cursor.getString(3)));
+				runData.setTimeElapsed(Integer.parseInt(cursor.getString(4)));
 				
 				// Add runData to list
 				runDataList.add(runData);

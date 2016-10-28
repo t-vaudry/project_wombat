@@ -36,4 +36,12 @@
         android:id="@+id/runText2"
         android:layout_below="@+id/runText"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/locationText"
+        android:layout_centerHorizontal="true"
+        android:onClick="updateLocation"
+        android:layout_below="@+id/runText2"/>
+
 </RelativeLayout>

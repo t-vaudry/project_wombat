@@ -1,5 +1,8 @@
 package com.project_wombat.runsmart;
 
+import android.content.Context;
+import android.widget.TextView;
+
 /**
  * Created by anita on 2016-10-28.
  */
@@ -26,7 +29,6 @@ public class StaticData {
     {
         return this.collectData;
     }
-
     public void setCollectData(boolean val)
     {
         collectData = val;

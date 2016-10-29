@@ -28,9 +28,6 @@ public class GPSTracker extends IntentService implements LocationListener {
     private final Context mContext = this;
     DBHandler dbHandler = new DBHandler(mContext);
 
-    // flag to collect data
-    boolean collectData = false;
-
     // flag for GPS status
     boolean isGPSEnabled = false;
 
@@ -59,6 +56,11 @@ public class GPSTracker extends IntentService implements LocationListener {
 
     // The minimum time between updates in milliseconds
     private static final long MIN_TIME_BW_UPDATES = 1000 * 3 * 1; // 3 seconds
+
+    // Values to pass distance and speed
+    public static final String ACTION_UPDATE = "com.project_wombat.runsmart.UPDATE";
+    public static final String EXTRA_KEY_DISTANCE = "distance";
+    public static final String EXTRA_KEY_SPEED = "speed";
 
     // Declaring a Location Manager
     protected LocationManager locationManager;
@@ -252,12 +254,25 @@ public class GPSTracker extends IntentService implements LocationListener {
             }
             curr_distance += distanceDifferential;
 
+            Intent intentUpdate = new Intent();
+            intentUpdate.setAction(ACTION_UPDATE);
+            intentUpdate.addCategory(Intent.CATEGORY_DEFAULT);
+            intentUpdate.putExtra(EXTRA_KEY_DISTANCE, Double.toString(curr_distance));
+            intentUpdate.putExtra(EXTRA_KEY_SPEED, Double.toString(curr_speed));
+            sendBroadcast(intentUpdate);
+
             rd = new RunData(beginningOfDataCollection, curr_speed, curr_latitude, curr_longitude, now.getTime()-beginningOfDataCollection.getTime());
             dbHandler.addRunData(rd);
 
             prev_latitude = curr_latitude;
             prev_longitude = curr_longitude;
             prev = now;
+            try {
+                synchronized (this){
+                    wait(3000);
+                }
+            }
+            catch(InterruptedException ex){}
         }
 
         //Log entire run to database

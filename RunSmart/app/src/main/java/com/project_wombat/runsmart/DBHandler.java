@@ -83,7 +83,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 		// Create runData table
 		CREATE_TABLE = "CREATE TABLE " + TABLE_RUNDATA + "("
-		+ KEY_TIME_STAMP + " INTEGER PRIMARY KEY," + KEY_SPEED
+		+ KEY_TIME_STAMP + " INTEGER," + KEY_SPEED
 		+ " REAL," + KEY_LATITUDE + " REAL," + KEY_LONGITUDE
 		+ " REAL," + KEY_TIME_ELAPSED + " INTEGER" + ")";
 		db.execSQL(CREATE_TABLE);

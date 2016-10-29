@@ -1,10 +1,9 @@
 package com.project_wombat.runsmart;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Handler;
+import android.content.IntentFilter;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,40 +11,19 @@ import android.view.View;
 import android.widget.Chronometer;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import static com.project_wombat.runsmart.R.id.distanceView;
+import static com.project_wombat.runsmart.R.id.speedView;
 
 public class RunActivity extends AppCompatActivity {
 
     GPSTracker gps;
     Chronometer chronometer;
     DBHandler dbHandler;
+    MyBroadcastReceiver myBroadcastReceiver;
 
     //Text views
     TextView distanceView;
     TextView speedView;
-
-    private Runnable mRunnable = new Runnable() {
-        @Override
-        public void run(){
-            DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-            speedView.setText(df.format(new Date()));
-            distanceView.setText(Double.toString(gps.getDistance()));
-        }
-    };
-
-    public class distance
-    {
-        private double mDistance;
-        public void setDistance(double d)
-        {
-            mDistance = d;
-            distanceView.setText(Double.toString(mDistance));
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +33,15 @@ public class RunActivity extends AppCompatActivity {
         gps = new GPSTracker();
         chronometer = (Chronometer)findViewById(R.id.chronometer);
         dbHandler = new DBHandler(this);
+        myBroadcastReceiver = new MyBroadcastReceiver();
 
         distanceView = (TextView) findViewById(R.id.distanceView);
         speedView = (TextView) findViewById(R.id.speedView);
+
+        //register receiver
+        IntentFilter intentFilter = new IntentFilter(GPSTracker.ACTION_UPDATE);
+        intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
+        registerReceiver(myBroadcastReceiver, intentFilter);
     }
 
     @Override
@@ -66,18 +50,30 @@ public class RunActivity extends AppCompatActivity {
         super.onStart();
     }
 
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        unregisterReceiver(myBroadcastReceiver);
+    }
+
+    public class MyBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String distance = intent.getStringExtra(GPSTracker.EXTRA_KEY_DISTANCE);
+            String speed = intent.getStringExtra(GPSTracker.EXTRA_KEY_SPEED);
+            distanceView.setText(distance);
+            speedView.setText(speed);
+        }
+    }
+
     public void startRun(View view)
     {
         chronometer.start();
         Intent gpsIntent = new Intent(this, GPSTracker.class);
         StaticData.getInstance().setCollectData(true);
         startService(gpsIntent);
-        runOnUiThread(mRunnable);
-        try {
-            wait(5000);
-        } catch(InterruptedException ex) {
-            Thread.currentThread().interrupt();
-        }
     }
 
     public void stopRun(View view)
@@ -85,8 +81,6 @@ public class RunActivity extends AppCompatActivity {
         StaticData.getInstance().setCollectData(false);
         chronometer.stop();
         chronometer.setBase(SystemClock.elapsedRealtime());
-        distanceView.setText(Double.toString(dbHandler.getAllRunData().get(2).getLatitude()));
-        speedView.setText(Integer.toString(dbHandler.getAllRunData().size()));
     }
 
 }

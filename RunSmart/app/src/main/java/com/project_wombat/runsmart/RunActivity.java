@@ -70,6 +70,7 @@ public class RunActivity extends AppCompatActivity {
 
     public void startRun(View view)
     {
+        chronometer.setBase(SystemClock.elapsedRealtime());
         chronometer.start();
         Intent gpsIntent = new Intent(this, GPSTracker.class);
         StaticData.getInstance().setCollectData(true);

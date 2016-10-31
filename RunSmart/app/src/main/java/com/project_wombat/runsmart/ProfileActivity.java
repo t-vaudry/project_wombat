@@ -39,12 +39,12 @@ public class ProfileActivity extends AppCompatActivity {
         missing_fields = Toast.makeText(this, R.string.missing_fields, Toast.LENGTH_SHORT);
 
         //toolbar set
-        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        //setSupportActionBar(toolbar);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //showing error or not
-        toolbar.setNavigationOnClickListener(new View.OnClickListener(){
+        /*toolbar.setNavigationOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view)
             {
@@ -57,7 +57,7 @@ public class ProfileActivity extends AppCompatActivity {
                     finish();
                 }
             }
-        });
+        });*/
 
         //setting edit text by id
         editAge = (EditText) findViewById(R.id.editAge);
@@ -148,6 +148,18 @@ public class ProfileActivity extends AppCompatActivity {
             textBMR.setVisibility(View.INVISIBLE);
             valueBMR.setVisibility(View.INVISIBLE);
             save.setVisibility(View.VISIBLE);
+        }
+        else if (id == android.R.id.home)
+        {
+            if(save.getVisibility() == View.VISIBLE )
+            {
+                back_toast.show();
+                return true;
+            }
+            else
+            {
+                finish();
+            }
         }
 
         return super.onOptionsItemSelected(item);

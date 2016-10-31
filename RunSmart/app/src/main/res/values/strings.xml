@@ -11,11 +11,14 @@
     <string name="save">Save</string>
     <string name="saved">Saved</string>
     <string name="back_error">Please save before exiting.</string>
+    <string name="back_run">Please stop to exit.</string>
     <string name="no_age">The item Age cannot be empty.</string>
     <string name="no_name">The item Name cannot be empty.</string>
     <string name="no_weight">The item Weight cannot be empty.</string>
     <string name="no_height">The item Height cannot be empty.</string>
     <string name="missing_fields">Please fill missing fields before saving.</string>
+    <string name="drawer_open">Drawer Open</string>
+    <string name="drawer_close">Drawer Closed</string>
     <string name="large_age">Please enter age between 0-99.</string>
     <string name="large_weight">Please enter weight between 0-200.</string>
     <string name="large_height">Please enter height between 0-215</string>

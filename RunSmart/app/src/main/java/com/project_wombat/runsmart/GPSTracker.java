@@ -52,10 +52,10 @@ public class GPSTracker extends IntentService implements LocationListener {
     double curr_speed = 0;
 
     // The minimum distance to change Updates in meters
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 5; // 5 meters
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 2; // 2 meters
 
     // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 3 * 1; // 3 seconds
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 1 * 1; // 1 seconds
 
     // Values to pass distance and speed
     public static final String ACTION_UPDATE = "com.project_wombat.runsmart.UPDATE";
@@ -166,7 +166,7 @@ public class GPSTracker extends IntentService implements LocationListener {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
 
         // Setting Dialog Title
-        alertDialog.setTitle("GPS is settings");
+        alertDialog.setTitle("GPS Settings");
 
         // Setting Dialog Message
         alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");

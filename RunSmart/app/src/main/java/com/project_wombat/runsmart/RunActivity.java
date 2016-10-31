@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import static com.project_wombat.runsmart.R.id.distanceView;
 import static com.project_wombat.runsmart.R.id.speedView;

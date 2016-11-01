@@ -10,10 +10,12 @@ import android.widget.TextView;
 public class StaticData {
     private static StaticData mInstance = null;
     private boolean collectData;
+    private boolean countSteps;
 
     private StaticData()
     {
         collectData = false;
+        countSteps = false;
     }
 
     public static StaticData getInstance()
@@ -29,8 +31,13 @@ public class StaticData {
     {
         return this.collectData;
     }
+    public boolean getCountSteps() {return this.countSteps; }
     public void setCollectData(boolean val)
     {
         collectData = val;
+    }
+    public void setCountSteps(boolean val)
+    {
+        countSteps = val;
     }
 }

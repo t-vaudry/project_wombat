@@ -2,8 +2,10 @@ package com.project_wombat.runsmart;
 
 import android.Manifest;
 import android.app.FragmentManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
@@ -27,19 +29,27 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    Button runButton;
+    TextView walkButton;
     DBHandler dbHandler;
     GPSTracker gps;
+    TextView stepCountView;
 
+    //For drawerlist
     ListView mDrawerList;
     RelativeLayout mDrawerPane;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
-
     ArrayList<NavItem> mNavItems = new ArrayList<NavItem>();
+
+    //For count steps
+    private StepCountBroadcastReceiver myBroadcastReceiver;
 
     private final String TAG = "Main Activity";
     private final int MY_PERMISSION = 0;
@@ -106,12 +116,36 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public class StepCountBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String steps = intent.getStringExtra(StepCounter.EXTRA_KEY_STEPS);
+            //NumberFormat numberFormat = new DecimalFormat("00000");
+            //steps = numberFormat.format(steps);
+            if (steps != null)
+            {
+                steps = String.format("%05d",Integer.parseInt(steps));
+                stepCountView.setText(steps);
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        stepCountView = (TextView) findViewById(R.id.stepCountView);
+
+        myBroadcastReceiver = new StepCountBroadcastReceiver();
+
+        //register receiver
+        IntentFilter intentFilter = new IntentFilter(StepCounter.ACTION_UPDATE);
+        intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
+        registerReceiver(myBroadcastReceiver, intentFilter);
 
         mNavItems.add(new NavItem("Profile", "View personal information", R.mipmap.ic_person_black_24dp));
 
@@ -151,8 +185,18 @@ public class MainActivity extends AppCompatActivity {
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        runButton = (Button) findViewById(R.id.runButton);
+        walkButton = (TextView) findViewById(R.id.walkButton);
+        if (StaticData.getInstance().getCountSteps())
+            walkButton.setText("STOP WALK");
         dbHandler = new DBHandler(this);
+
+        //Set up walk listener
+        RelativeLayout relativeclic1 =(RelativeLayout)findViewById(R.id.walkLayout);
+        relativeclic1.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                countSteps(v);            }
+        });
     }
 
     @Override
@@ -163,6 +207,13 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, ProfileActivity.class);
             startActivity(intent);
         }
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        unregisterReceiver(myBroadcastReceiver);
     }
 
     @Override
@@ -196,6 +247,25 @@ public class MainActivity extends AppCompatActivity {
         {
             Intent intent = new Intent(this, ProfileActivity.class);
             startActivity(intent);
+        }
+    }
+
+    public void countSteps(View view)
+    {
+        boolean countSteps = StaticData.getInstance().getCountSteps();
+        StaticData.getInstance().setCountSteps(!countSteps);
+
+        if(countSteps == true)
+        {
+            stepCountView.setText("00000");
+            walkButton.setText("START WALK");
+        }
+        else
+        {
+            //start stepcount service
+            Intent intent = new Intent(this,StepCounter.class);
+            startService(intent);
+            walkButton.setText("STOP WALK");
         }
     }
 }

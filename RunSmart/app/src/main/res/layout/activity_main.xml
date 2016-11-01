@@ -16,15 +16,6 @@
         android:theme="@style/AppTheme"
         tools:context="com.project_wombat.runsmart.MainActivity">
 
-        <android.support.v7.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:id="@+id/my_toolbar"
-            android:elevation="4dp"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-        </android.support.v7.widget.Toolbar>
-
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,7 +27,59 @@
             android:onClick="startRun"
             android:text="RUN"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="22dp" />
+
+        <RelativeLayout
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/walkLayout"
+            android:orientation="vertical"
+            android:background="@drawable/stop_button"
+            android:layout_marginStart="35dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:weightSum="1">
+
+            <TextView
+                android:text="00000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/stepCountView"
+                android:textSize="30dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.89"
+                android:layout_below="@+id/walkButton"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="55dp"
+                android:gravity="center"
+                android:id="@+id/walkButton"
+                android:drawableTop="@mipmap/ic_directions_walk_black_24dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:text="START WALK"
+                android:background="@color/colorBackground"
+                android:layout_marginTop="11dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:id="@+id/my_toolbar"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true">
+        </android.support.v7.widget.Toolbar>
+
 
     </RelativeLayout>
         <!-- navigation drawer -->

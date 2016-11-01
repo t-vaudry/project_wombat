@@ -92,13 +92,19 @@ public class RunActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             String distance = intent.getStringExtra(GPSTracker.EXTRA_KEY_DISTANCE);
 
-            DecimalFormat numbers = new DecimalFormat("0.000");
-            double distanceDouble = Double.parseDouble(distance);
 
-            distanceDouble = distanceDouble/1000f; //to km
+            if (distance != null)
+            {
+                DecimalFormat numbers = new DecimalFormat("0.000");
 
-            distance = numbers.format(distanceDouble);
-            distanceView.setText(distance + "km");
+
+                double distanceDouble = Double.parseDouble(distance);
+
+                distanceDouble = distanceDouble/1000f; //to km
+
+                distance = numbers.format(distanceDouble);
+                distanceView.setText(distance + "km");
+            }
         }
     }
 

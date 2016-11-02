@@ -212,7 +212,7 @@ public class ProfileActivity extends AppCompatActivity {
         {
             editHeight.setError(getText(R.string.no_height));
         }
-        else if(Integer.parseInt(editHeight.getText().toString()) > 215)
+        else if(Integer.parseInt(editHeight.getText().toString()) > 215 || Integer.parseInt(editHeight.getText().toString()) < 1)
         {
             editHeight.setError(getText(R.string.large_height));
         }

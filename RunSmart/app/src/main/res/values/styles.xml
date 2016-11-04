@@ -10,4 +10,8 @@
         <item name="android:textColor">@color/colorText</item>
     </style>
 
+    <style name="LoadScreenTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/load_screen</item>
+    </style>
+
 </resources>

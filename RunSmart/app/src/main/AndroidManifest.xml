@@ -12,13 +12,25 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service android:enabled="true" android:name=".GPSTracker"/>
-        <service android:enabled="true" android:name=".StepCounter"/>
-        <activity android:name=".MainActivity">
+        <service
+            android:name=".GPSTracker"
+            android:enabled="true" />
+        <service
+            android:name=".StepCounter"
+            android:enabled="true" />
+
+        <activity
+            android:name=".LoadScreenActivity"
+            android:theme="@style/LoadScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
         <activity
@@ -26,8 +38,7 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".RunActivity"
-            android:parentActivityName=".MainActivity">
-        </activity>
+            android:parentActivityName=".MainActivity"></activity>
     </application>
 
 </manifest>

@@ -148,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(myBroadcastReceiver, intentFilter);
 
         mNavItems.add(new NavItem("Profile", "View personal information", R.mipmap.ic_person_black_24dp));
+        mNavItems.add(new NavItem("Statistics", "View historical data", R.mipmap.ic_show_chart_black_24dp));
 
         // DrawerLayout
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -243,9 +244,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void selectItemFromDrawer(int position) {
-        if(mNavItems.get(position).mTitle == "Profile")
+        if(mNavItems.get(position).mTitle.equals("Profile"))
         {
             Intent intent = new Intent(this, ProfileActivity.class);
+            startActivity(intent);
+        }
+        else if(mNavItems.get(position).mTitle.equals("Statistics"))
+        {
+            Intent intent = new Intent(this, StatsActivity.class);
             startActivity(intent);
         }
     }

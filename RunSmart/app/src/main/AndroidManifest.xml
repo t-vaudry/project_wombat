@@ -38,7 +38,8 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".RunActivity"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".StatsActivity"></activity>
     </application>
 
 </manifest>

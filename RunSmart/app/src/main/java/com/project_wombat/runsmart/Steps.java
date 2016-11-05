@@ -1,5 +1,6 @@
 package com.project_wombat.runsmart;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -13,6 +14,13 @@ public class Steps {
     public Steps(){}
     public Steps(Date time_stamp, int steps)
     {
+        Calendar now = Calendar.getInstance();
+        now.setTime(time_stamp);
+        now.set(Calendar.HOUR_OF_DAY, 0);
+        now.set(Calendar.MINUTE, 0);
+        now.set(Calendar.SECOND, 0);
+        now.set(Calendar.MILLISECOND, 0);
+        time_stamp = now.getTime();
         this.time_stamp = time_stamp.getTime()/1000;
         this.steps = steps;
     }

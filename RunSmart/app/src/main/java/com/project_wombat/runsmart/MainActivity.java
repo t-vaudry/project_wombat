@@ -1,17 +1,9 @@
 package com.project_wombat.runsmart;
 
-import android.Manifest;
-import android.app.FragmentManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.support.v4.app.ActivityCompat;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,16 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -254,6 +241,12 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, StatsActivity.class);
             startActivity(intent);
         }
+    }
+
+    public void viewStatistics(View view)
+    {
+        Intent intent = new Intent(this, StatsActivity.class);
+        startActivity(intent);
     }
 
     public void countSteps(View view)

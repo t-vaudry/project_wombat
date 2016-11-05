@@ -100,6 +100,8 @@ public class DBHandler extends SQLiteOpenHelper {
 		+ KEY_TYPE + " INTEGER PRIMARY KEY," + KEY_VALUE
 		+ " INTEGER," + KEY_DATE_ACHIEVED + " INTEGER" + ")";
 		db.execSQL(CREATE_TABLE);
+
+		db.close(); // Close database connection
 	}
 
 	@Override
@@ -159,6 +161,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		);
 
         cursor.close();
+		db.close(); // Close database connection
 		return run;
 	}
 
@@ -190,6 +193,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		} while (cursor.moveToNext());
 
         cursor.close();
+		db.close(); // Close database connection
 		// return run list
 		return runList;
 	}
@@ -222,6 +226,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		}
 
         cursor.close();
+		db.close(); // Close database connection
 		// return run list
 		return runList;
 	}
@@ -244,8 +249,23 @@ public class DBHandler extends SQLiteOpenHelper {
 		values.put(KEY_TIME_STAMP, step.getTimeStamp());
 		values.put(KEY_STEPS, step.getSteps());
 
-		// Inserting row
-		db.insert(TABLE_STEPS, null, values);
+		//Check if exists
+		Cursor cursor = db.query(TABLE_STEPS, new String[]{KEY_TIME_STAMP, KEY_STEPS},
+				KEY_TIME_STAMP + " = " + Long.toString(step.getTimeStamp()), null, null, null, null);
+
+		if(cursor.moveToFirst())
+		{
+			step.setSteps(step.getSteps()+Integer.parseInt(cursor.getString(1)));
+			values = new ContentValues();
+			values.put(KEY_TIME_STAMP, step.getTimeStamp());
+			values.put(KEY_STEPS, step.getSteps());
+			db.update(TABLE_STEPS, values, KEY_TIME_STAMP + " = ?", new String[]{String.valueOf(step.getTimeStamp())});
+		}
+		else
+		{
+			db.insert(TABLE_STEPS, null, values);
+		}
+
 		db.close(); // Close database connection
 	}
 
@@ -255,7 +275,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getReadableDatabase();
 
 		Cursor cursor = db.query(TABLE_STEPS, new String[]{KEY_TIME_STAMP,
-		KEY_STEPS}, KEY_TIME_STAMP + "?=", new String[]{Long.toString(time_stamp.getTime()/1000)}, null, null, null);
+		KEY_STEPS}, KEY_TIME_STAMP + " = " + Long.toString(time_stamp.getTime()/1000), null, null, null, null);
 
         Steps step = new Steps();
 
@@ -268,6 +288,7 @@ public class DBHandler extends SQLiteOpenHelper {
         }
 
         cursor.close();
+		db.close(); // Close database connection
 		return step;
 	}
 
@@ -294,6 +315,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		}
 
         cursor.close();
+		db.close(); // Close database connection
 		// return steps list
 		return stepsList;
 	}
@@ -321,6 +343,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		}
 
         cursor.close();
+		db.close(); // Close database connection
 		// return steps list
 		return stepsList;
 	}
@@ -371,6 +394,7 @@ public class DBHandler extends SQLiteOpenHelper {
         }
 
         cursor.close();
+		db.close(); // Close database connection
 		return profile;
 	}
 
@@ -389,6 +413,8 @@ public class DBHandler extends SQLiteOpenHelper {
 		// updating row
 		db.update(TABLE_PROFILE, values, KEY_ID + " = ?",
 				new String[]{String.valueOf(1)});
+
+		db.close(); // Close database connection
 	}
 
 	// Adding run data
@@ -437,6 +463,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		}
 
         cursor.close();
+		db.close(); // Close database connection
 		// return runData list
 		return runDataList;
 	}
@@ -468,6 +495,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		}
 
 		cursor.close();
+		db.close(); // Close database connection
 		// return runData list
 		return runDataList;
 	}
@@ -512,6 +540,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		}
 
         cursor.close();
+		db.close(); // Close database connection
 		// return goal list
 		return goalList;
 	}
@@ -553,6 +582,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		}
 
         cursor.close();
+		db.close(); // Close database connection
 		// return trophy list
 		return trophyList;
 	}

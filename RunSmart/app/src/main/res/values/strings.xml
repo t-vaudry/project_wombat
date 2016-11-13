@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">RunSmart</string>
     <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="add">Add</string>
     <string name="view_profile">View Profile</string>
     <string name="name">Name</string>
     <string name="age">Age</string>
@@ -23,4 +25,25 @@
     <string name="large_weight">Please enter weight between 0-200.</string>
     <string name="large_height">Please enter height between 1-215</string>
     <string name="BMI">BMI</string>
+    <string name="no_goal">This value cannot be empty.</string>
+    <string name="goal_title">Current Goals:</string>
+    <string name="add_goal">Add a Goal:</string>
+
+    <string name="goal_type_prompt">Select Goal Type</string>
+    <string-array name="goal_type_array">
+        <item>Walk</item>
+        <item>Run</item>
+    </string-array>
+
+    <string name="goal_run_type_prompt">Select Type</string>
+    <string-array name="goal_run_type_array">
+        <item>minutes</item>
+        <item>kilometres</item>
+    </string-array>
+
+    <string-array name="goal_duration_array">
+        <item>today</item>
+        <item>this week</item>
+        <item>this month</item>
+    </string-array>
 </resources>

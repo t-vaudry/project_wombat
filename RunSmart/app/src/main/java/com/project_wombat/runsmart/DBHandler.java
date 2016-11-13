@@ -43,6 +43,7 @@ public class DBHandler extends SQLiteOpenHelper {
 	private static final String KEY_NAME = "name";
 	private static final String KEY_SEX = "sex";
 	private static final String KEY_SPEED = "speed";
+	private static final String KEY_START_DATE = "start_date";
 	private static final String KEY_STEPS = "steps";
 	private static final String KEY_TIME_ELAPSED = "time_elapsed";
 	private static final String KEY_TIME_STAMP = "time_stamp";
@@ -90,8 +91,8 @@ public class DBHandler extends SQLiteOpenHelper {
 
 		// Create goals table
 		CREATE_TABLE = "CREATE TABLE " + TABLE_GOALS + "("
-		+ KEY_GOAL_TYPE + " INTEGER PRIMARY KEY," + KEY_TIME_TYPE
-		+ " INTEGER," + KEY_VALUE + " INTEGER," + KEY_END_DATE
+		+ KEY_GOAL_TYPE + " INTEGER," + KEY_TIME_TYPE
+		+ " INTEGER," + KEY_VALUE + " INTEGER," + KEY_START_DATE + " INTEGER," + KEY_END_DATE
 		+ " INTEGER" + ")";
 		db.execSQL(CREATE_TABLE);
 
@@ -101,7 +102,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		+ " INTEGER," + KEY_DATE_ACHIEVED + " INTEGER" + ")";
 		db.execSQL(CREATE_TABLE);
 
-		db.close(); // Close database connection
+		//db.close(); // Close database connection
 	}
 
 	@Override
@@ -231,6 +232,52 @@ public class DBHandler extends SQLiteOpenHelper {
 		return runList;
 	}
 
+
+	public long getRunTimeBounded(long start, long end)
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		long count = 0;
+
+		String selectQuery = "SELECT SUM(" + KEY_DURATION + ") FROM " + TABLE_RUNS + " WHERE " + KEY_TIME_STAMP + " BETWEEN " + start + " AND " + end;
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		// set count if there is run data
+		if (cursor != null)
+		{
+			cursor.moveToFirst();
+			count = cursor.getLong(0);
+			//count = Long.parseLong(cursor.getString(0));
+		}
+
+		cursor.close();
+		db.close(); // Close database connection
+		// return time count
+		return count;
+	}
+
+
+	public double getRunDistanceBounded(long start, long end)
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		double count = 0;
+
+		String selectQuery = "SELECT SUM(" + KEY_DISTANCE + ") FROM " + TABLE_RUNS + " WHERE " + KEY_TIME_STAMP + " BETWEEN " + start + " AND " + end;
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		// set count if there is run data
+		if (cursor != null)
+		{
+			cursor.moveToFirst();
+			count = cursor.getDouble(0);
+			//count = Double.parseDouble(cursor.getString(0));
+		}
+
+		cursor.close();
+		db.close(); // Close database connection
+		// return distance count
+		return count;
+	}
+
 	// Deleting a run
 	public void deleteRun(Date time_stamp)
 	{
@@ -346,6 +393,29 @@ public class DBHandler extends SQLiteOpenHelper {
 		db.close(); // Close database connection
 		// return steps list
 		return stepsList;
+	}
+
+
+	public int getStepCountBounded(long start, long end)
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		int count = 0;
+
+		String selectQuery = "SELECT SUM(" + KEY_STEPS + ") FROM " + TABLE_STEPS + " WHERE " + KEY_TIME_STAMP + " BETWEEN " + start + " AND " + end;
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		//return count if there are steps in this range
+		if(cursor != null)
+		{
+			cursor.moveToFirst();
+			count = cursor.getInt(0);
+			//count = Integer.parseInt(cursor.getString(0));
+		}
+
+		cursor.close();
+		db.close(); // Close database connection
+		// return step count
+		return count;
 	}
 
 	// Deleting a step
@@ -500,6 +570,15 @@ public class DBHandler extends SQLiteOpenHelper {
 		return runDataList;
 	}
 
+	// Deleting a goal
+	public void deleteGoal(Goal goal)
+	{
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.delete(TABLE_GOALS, KEY_GOAL_TYPE + " =? AND " + KEY_TIME_TYPE + " =? AND " + KEY_VALUE + " =? AND " + KEY_END_DATE + " =? ",
+				new String [] { Integer.toString(goal.getGoalType()), Integer.toString(goal.getTimeType()), Integer.toString(goal.getValue()), Long.toString(goal.getEndDate()) });
+		db.close();
+	}
+
 	// Add goal
 	public void addGoal(Goal goal)
 	{
@@ -509,6 +588,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		values.put(KEY_GOAL_TYPE, goal.getGoalType());
 		values.put(KEY_TIME_TYPE, goal.getTimeType());
 		values.put(KEY_VALUE, goal.getValue());
+		values.put(KEY_START_DATE, goal.getStart_date());
 		values.put(KEY_END_DATE, goal.getEndDate());
 
 		db.insert(TABLE_GOALS, null, values);
@@ -532,7 +612,8 @@ public class DBHandler extends SQLiteOpenHelper {
 				goal.setGoalType(Integer.parseInt(cursor.getString(0)));
 				goal.setTimeType(Integer.parseInt(cursor.getString(1)));
 				goal.setValue(Integer.parseInt(cursor.getString(2)));
-				goal.setEndDate(new Date(Long.parseLong(cursor.getString(3))*1000));
+				goal.setStart_date(new Date(Long.parseLong(cursor.getString(3))*1000));
+				goal.setEndDate(new Date(Long.parseLong(cursor.getString(4))*1000));
 				
 				// Add goal to list
 				goalList.add(goal);

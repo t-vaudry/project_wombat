@@ -276,7 +276,7 @@ public class GPSTracker extends IntentService implements LocationListener {
         }
 
         //Log entire run to database
-        Run run = new Run(beginningOfDataCollection, curr_distance, now.getTime()-beginningOfDataCollection.getTime(), 0.0, 0.0, 0.0, 0.0);
+        Run run = new Run(beginningOfDataCollection, curr_distance, now.getTime()-beginningOfDataCollection.getTime(), (curr_distance/1000.0)/((now.getTime()-beginningOfDataCollection.getTime())/3600000.0), 0.0, 0.0, 0.0);
         dbHandler.addRun(run);
     }
 

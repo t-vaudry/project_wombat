@@ -127,6 +127,7 @@ public class RunStatsFragment extends ListFragment {
         month = now.getMonth();
         runType = 0;
         series = new PointsGraphSeries<>(refreshStats());
+        //size of point
         series.setSize(10);
 
         runGraph.addSeries(series);

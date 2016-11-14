@@ -14,13 +14,16 @@ import java.util.Date;
 public class DateUtils {
 
     private DateUtils() { throw new AssertionError(); }
-    private static final DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+    private static final DateFormat dtf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+    private static final DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+    private static final DateFormat displayDate = new SimpleDateFormat("EEE, MMM d, yyyy");
+    private static final DateFormat displayTime = new SimpleDateFormat("EEE, MMM d, yyyy HH:mm:ss");
 
     public static Date parse(String toParse)
     {
         Date date = new Date();
         try {
-            date = df.parse(toParse);
+            date = dtf.parse(toParse);
         }
         catch (ParseException e) {
         	Log.i("Date error", "Date error");
@@ -28,8 +31,19 @@ public class DateUtils {
         return date;
     }
 
-    public static String format(long toFormat)
+    public static String format(long toFormat, boolean datetime)
     {
-        return df.format(new Date(toFormat*1000));
+        if(datetime)
+            return dtf.format(new Date(toFormat*1000));
+        else
+            return df.format(new Date(toFormat*1000));
+    }
+
+    public static String display(long toFormat, boolean datetime)
+    {
+        if(datetime)
+            return displayTime.format(new Date(toFormat*1000));
+        else
+            return displayDate.format(new Date(toFormat*1000));
     }
 }

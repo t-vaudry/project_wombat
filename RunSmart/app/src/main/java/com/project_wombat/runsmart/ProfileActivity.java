@@ -2,7 +2,6 @@ package com.project_wombat.runsmart;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,27 +36,6 @@ public class ProfileActivity extends AppCompatActivity {
         back_toast = Toast.makeText(this, R.string.back_error, Toast.LENGTH_SHORT);
         saved = Toast.makeText(this, R.string.saved, Toast.LENGTH_SHORT);
         missing_fields = Toast.makeText(this, R.string.missing_fields, Toast.LENGTH_SHORT);
-
-        //toolbar set
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        //setSupportActionBar(toolbar);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        //showing error or not
-        /*toolbar.setNavigationOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view)
-            {
-                if(save.getVisibility() == View.VISIBLE )
-                {
-                    back_toast.show();
-                }
-                else
-                {
-                    finish();
-                }
-            }
-        });*/
 
         //setting edit text by id
         editAge = (EditText) findViewById(R.id.editAge);

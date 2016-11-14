@@ -176,16 +176,7 @@ public class GoalsActivity extends AppCompatActivity {
         getProgress();
     }
 
-
-    private EditText createNewTextView(String text) {
-        final LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        final EditText editText = new EditText(this);
-        editText.setLayoutParams(lparams);
-        editText.setText("New text: " + text);
-        return editText;
-    }
-
-    public void SaveClicked(View view)
+    public void saveClicked(View view)
     {
         if(mEditValue.getText().toString().matches(""))
         {

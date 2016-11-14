@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/goalText"
         android:textColor="@color/colorPrimary"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:paddingTop="7dp"
         android:paddingBottom="3dp"
         android:layout_gravity="center_horizontal"/>

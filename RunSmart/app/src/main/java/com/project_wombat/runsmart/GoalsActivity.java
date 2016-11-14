@@ -169,6 +169,7 @@ public class GoalsActivity extends AppCompatActivity {
     protected void onResume()
     {
         super.onResume();
+        mGoalListItems.clear();
         mDeleteMode = false;
         mAddMode = false;
         mTitleText.setText(R.string.goal_title);
@@ -184,6 +185,8 @@ public class GoalsActivity extends AppCompatActivity {
         }
         else
         {
+            mTitleText.setText(R.string.goal_title);
+
             mAddItem.setIcon(R.mipmap.ic_add_white_24dp);
             mAddMode = !mAddMode;
 

@@ -14,7 +14,7 @@ public class RunData {
 	private long time_elapsed;
 
 	public RunData(){}
-	public RunData(Date time_stamp, double speed, double longitude, double latitude, long time_elapsed)
+	public RunData(Date time_stamp, double speed, double latitude, double longitude, long time_elapsed)
 	{
 		this.time_stamp = time_stamp.getTime()/1000;
 		this.speed = speed;

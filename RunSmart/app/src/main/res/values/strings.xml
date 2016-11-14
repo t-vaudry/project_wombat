@@ -46,4 +46,38 @@
         <item>this week</item>
         <item>this month</item>
     </string-array>
+    <string name="walk">Walk</string>
+    <string name="run">Run</string>
+    <string name="workout_details">WORKOUT DETAILS</string>
+    <string name="duration">Total duration</string>
+    <string name="calories">Total calories</string>
+    <string name="before_hr">Heart rate before workout</string>
+    <string name="after_hr">Heart rate after workout</string>
+    <string name="avg_speed">Average speed</string>
+
+    <string-array name="month_options">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+
+    <string-array name="year_options">
+        <item>2016</item>
+    </string-array>
+
+    <string-array name="run_options">
+        <item>Distance</item>
+        <item>Duration</item>
+        <item>Average Speed</item>
+    </string-array>
+    <string name="title_activity_map">MapActivity</string>
 </resources>

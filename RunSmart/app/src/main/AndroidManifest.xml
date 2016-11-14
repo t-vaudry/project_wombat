@@ -31,37 +31,47 @@
 
         <activity
             android:name=".LoadScreenActivity"
-            android:theme="@style/LoadScreenTheme">
+            android:theme="@style/LoadScreenTheme"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ProfileActivity"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".RunActivity"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".StatsActivity"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/TabTheme" />
+            android:theme="@style/TabTheme"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MapActivity"
             android:label="@string/title_activity_map"
-            android:parentActivityName=".StatsActivity" />
+            android:parentActivityName=".StatsActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".RunDataActivity"
-            android:parentActivityName=".StatsActivity"/>
+            android:parentActivityName=".StatsActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".GoalsActivity"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

@@ -344,7 +344,7 @@ public class GoalsActivity extends AppCompatActivity {
                 break;
             case 2:
                 count = (int)dbHandler.getRunDistanceBounded(mGoals.get(mGoals.size()-1).getStart_date(), mGoals.get(mGoals.size()-1).getEndDate());
-                percentage = (int)((float)count/(float)mGoals.get(mGoals.size()-1).getValue() * 100);
+                percentage = (int)((float)count/((float)mGoals.get(mGoals.size()-1).getValue()*1000) * 100);
                 break;
         }
 

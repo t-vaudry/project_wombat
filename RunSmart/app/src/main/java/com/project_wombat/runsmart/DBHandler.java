@@ -153,12 +153,12 @@ public class DBHandler extends SQLiteOpenHelper {
 
 		Run run = new Run(
 		new Date(Long.parseLong(cursor.getString(0))*1000),
-		Double.parseDouble(cursor.getString(1)),
-		Long.parseLong(cursor.getString(2)),
-		Double.parseDouble(cursor.getString(3)),
-		Double.parseDouble(cursor.getString(4)),
-		Double.parseDouble(cursor.getString(5)),
-		Double.parseDouble(cursor.getString(6))
+		cursor.getDouble(1),
+		cursor.getLong(2),
+		cursor.getDouble(3),
+		cursor.getDouble(4),
+		cursor.getDouble(5),
+		cursor.getDouble(6)
 		);
 
         cursor.close();
@@ -214,12 +214,12 @@ public class DBHandler extends SQLiteOpenHelper {
 			{
 				Run run = new Run();
 				run.setTimeStamp(new Date(Long.parseLong(cursor.getString(0))*1000));
-				run.setDistance(Double.parseDouble(cursor.getString(1)));
-				run.setDuration(Long.parseLong(cursor.getString(2)));
-				run.setAvgSpeed(Double.parseDouble(cursor.getString(3)));
-				run.setTopSpeed(Double.parseDouble(cursor.getString(4)));
-				run.setHeartRateBefore(Double.parseDouble(cursor.getString(5)));
-				run.setHeartRateAfter(Double.parseDouble(cursor.getString(6)));
+				run.setDistance(cursor.getDouble(1));
+				run.setDuration(cursor.getLong(2));
+				run.setAvgSpeed(cursor.getDouble(3));
+				run.setTopSpeed(cursor.getDouble(4));
+				run.setHeartRateBefore(cursor.getDouble(5));;
+				run.setHeartRateAfter(cursor.getDouble(6));;
 				
 				// Add run to list
 				runList.add(run);
@@ -382,7 +382,7 @@ public class DBHandler extends SQLiteOpenHelper {
 			{
 				Steps step = new Steps();
 				step.setTimeStamp(new Date(Long.parseLong(cursor.getString(0))*1000));
-				step.setSteps(Integer.parseInt(cursor.getString(1)));
+				step.setSteps(cursor.getInt(1));
 				
 				// Add steps to list
 				stepsList.add(step);
@@ -522,10 +522,10 @@ public class DBHandler extends SQLiteOpenHelper {
 			{
 				RunData runData = new RunData();
 				runData.setTimeStamp(new Date(Long.parseLong(cursor.getString(0))*1000));
-				runData.setSpeed(Double.parseDouble(cursor.getString(1)));
-				runData.setLatitude(Double.parseDouble(cursor.getString(2)));
-				runData.setLongitude(Double.parseDouble(cursor.getString(3)));
-				runData.setTimeElapsed(Long.parseLong(cursor.getString(4)));
+				runData.setSpeed(cursor.getDouble(1));
+				runData.setLatitude(cursor.getDouble(2));;
+				runData.setLongitude(cursor.getDouble(3));;
+				runData.setTimeElapsed(cursor.getLong(4));;
 				
 				// Add runData to list
 				runDataList.add(runData);
@@ -554,10 +554,10 @@ public class DBHandler extends SQLiteOpenHelper {
 			{
 				RunData runData = new RunData();
 				runData.setTimeStamp(new Date(Long.parseLong(cursor.getString(0))*1000));
-				runData.setSpeed(Double.parseDouble(cursor.getString(1)));
-				runData.setLatitude(Double.parseDouble(cursor.getString(2)));
-				runData.setLongitude(Double.parseDouble(cursor.getString(3)));
-				runData.setTimeElapsed(Long.parseLong(cursor.getString(4)));
+				runData.setSpeed(cursor.getDouble(1));
+				runData.setLatitude(cursor.getDouble(2));
+				runData.setLongitude(cursor.getDouble(3));
+				runData.setTimeElapsed(cursor.getLong(4));
 
 				// Add runData to list
 				runDataList.add(runData);
@@ -609,9 +609,9 @@ public class DBHandler extends SQLiteOpenHelper {
 			do 
 			{
 				Goal goal = new Goal();
-				goal.setGoalType(Integer.parseInt(cursor.getString(0)));
-				goal.setTimeType(Integer.parseInt(cursor.getString(1)));
-				goal.setValue(Integer.parseInt(cursor.getString(2)));
+				goal.setGoalType(cursor.getInt(0));
+				goal.setTimeType(cursor.getInt(1));
+				goal.setValue(cursor.getInt(2));
 				goal.setStart_date(new Date(Long.parseLong(cursor.getString(3))*1000));
 				goal.setEndDate(new Date(Long.parseLong(cursor.getString(4))*1000));
 				

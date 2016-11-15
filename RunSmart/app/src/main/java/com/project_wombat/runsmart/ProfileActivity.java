@@ -11,6 +11,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
+import java.text.StringCharacterIterator;
+
 public class ProfileActivity extends AppCompatActivity {
     EditText editAge;
     EditText editName;
@@ -256,15 +259,21 @@ public class ProfileActivity extends AppCompatActivity {
         float height = profile.getHeight();
         float weight = profile.getWeight();
 
-        valueBMI.setText(Float.toString((weight/((height/100)*(height/100)))));
+        DecimalFormat decimalFormat = new DecimalFormat("#.00");
 
+        String BMI = decimalFormat.format(weight/((height/100)*(height/100)));
+        valueBMI.setText(BMI);
+
+        String BMR;
         if(profile.getSex()) //female
         {
-            valueBMR.setText(Double.toString((66)+(13.7*weight)+(5*height)-(6.8*age)));
+            BMR = decimalFormat.format((66)+(13.7*weight)+(5*height)-(6.8*age));
+            valueBMR.setText(BMR);
         }
         else //male
         {
-            valueBMR.setText(Double.toString((665)+(9.6*weight)+(1.8*height)-(4.7*age)));
+            BMR = decimalFormat.format((665)+(9.6*weight)+(1.8*height)-(4.7*age));
+            valueBMR.setText(BMR);
         }
     }
 

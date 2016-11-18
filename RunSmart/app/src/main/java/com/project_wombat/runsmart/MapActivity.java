@@ -2,7 +2,7 @@ package com.project_wombat.runsmart;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -15,7 +15,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.util.Date;
 import java.util.List;
 
-public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     private SupportMapFragment fragment;
     private DBHandler dbHandler;
     private List<RunData> runData;

@@ -53,11 +53,11 @@ public class RunDataActivity extends AppCompatActivity {
         duration.setText(str);
         str = String.format("%.2f",run.getDistance()/1000) + " km";
         distance.setText(str);
-        str = Double.toString(run.getAvgSpeed()) + " m/s";
+        str = String.format("%.2f",run.getAvgSpeed()) + " km/h";
         speed.setText(str);
         timer.stop();
         timer.setBase(timer.getBase()-run.getDuration());
-        str = Double.toString((7.5*dbHandler.getProfile().getWeight())*(run.getDuration()/60000)) + " cal";
+        str = Double.toString(((3.5*dbHandler.getProfile().getWeight()*8)/200)*(run.getDuration()/60000)) + " cal";
         calories.setText(str);
         str = Double.toString(run.getHeartRateBefore()) + " bpm";
         before_hr.setText(str);

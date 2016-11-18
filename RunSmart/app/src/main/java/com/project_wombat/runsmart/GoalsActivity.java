@@ -35,6 +35,7 @@ public class GoalsActivity extends AppCompatActivity {
     private boolean mAddMode;
 
     private MenuItem mAddItem;
+    private MenuItem mDeleteItem;
 
     private GoalAdapter mGoalAdapter;
     private ListView mGoalListView;
@@ -119,6 +120,7 @@ public class GoalsActivity extends AppCompatActivity {
     {
         getMenuInflater().inflate(R.menu.goalmenu, menu);
         mAddItem = menu.findItem(R.id.action_add);
+        mDeleteItem = menu.findItem(R.id.action_delete);
         return true;
     }
 
@@ -172,6 +174,14 @@ public class GoalsActivity extends AppCompatActivity {
         mGoalListItems.clear();
         mDeleteMode = false;
         mAddMode = false;
+
+        if(mAddItem != null)
+            mAddItem.setIcon(R.mipmap.ic_add_white_24dp);
+        if(mDeleteItem != null)
+            mDeleteItem.setIcon(R.mipmap.ic_delete_white_24dp);
+
+        mEditLayout.setVisibility(View.GONE);
+        mSaveButton.setVisibility(View.GONE);
         mTitleText.setText(R.string.goal_title);
         loadCurrentGoals();
         getProgress();

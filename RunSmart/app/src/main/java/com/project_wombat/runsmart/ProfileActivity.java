@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -19,7 +18,6 @@ public class ProfileActivity extends AppCompatActivity {
     EditText editWeight;
     EditText editHeight;
     Switch editGender;
-    Button save;
     DBHandler dbHandler;
     Toast back_toast;
     Toast saved;
@@ -28,6 +26,8 @@ public class ProfileActivity extends AppCompatActivity {
     TextView valueBMI;
     TextView textBMR;
     TextView valueBMR;
+    private boolean editMode;
+    MenuItem editItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,6 @@ public class ProfileActivity extends AppCompatActivity {
         editWeight = (EditText) findViewById(R.id.editWeight);
         editHeight = (EditText) findViewById(R.id.editHeight);
         editGender = (Switch) findViewById(R.id.editGender);
-        save = (Button) findViewById(R.id.save);
 
         textBMI = (TextView) findViewById(R.id.textBMI);
         valueBMI = (TextView) findViewById(R.id.valueBMI);
@@ -56,9 +55,12 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart()
+    protected void onResume()
     {
-        super.onStart();
+        super.onResume();
+        editMode = false;
+        if(editItem != null)
+            editItem.setIcon(R.mipmap.ic_mode_edit_white_24dp);
 
         //checking if name is null
         if(dbHandler.getProfile().getId() == 1)
@@ -83,7 +85,6 @@ public class ProfileActivity extends AppCompatActivity {
             editWeight.setEnabled(false);
             editHeight.setEnabled(false);
             editGender.setEnabled(false);
-            save.setVisibility(View.INVISIBLE);
 
         }
         //if name is not null
@@ -99,7 +100,6 @@ public class ProfileActivity extends AppCompatActivity {
             valueBMI.setVisibility(View.INVISIBLE);
             textBMR.setVisibility(View.INVISIBLE);
             valueBMR.setVisibility(View.INVISIBLE);
-            save.setVisibility(View.VISIBLE);
         }
     }
 
@@ -107,6 +107,7 @@ public class ProfileActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu)
     {
         getMenuInflater().inflate(R.menu.menu, menu);
+        editItem = menu.findItem(R.id.edit);
         return true;
     }
 
@@ -117,21 +118,119 @@ public class ProfileActivity extends AppCompatActivity {
 
         if(id == R.id.edit)
         {
-            editAge.setEnabled(true);
-            editName.setEnabled(true);
-            editWeight.setEnabled(true);
-            editHeight.setEnabled(true);
-            editGender.setEnabled(true);
+            editMode = !editMode;
 
-            textBMI.setVisibility(View.INVISIBLE);
-            valueBMI.setVisibility(View.INVISIBLE);
-            textBMR.setVisibility(View.INVISIBLE);
-            valueBMR.setVisibility(View.INVISIBLE);
-            save.setVisibility(View.VISIBLE);
+            if (editMode) //Now editing items
+            {
+                item.setIcon(R.mipmap.ic_save_white_24dp);
+                editAge.setEnabled(true);
+                editName.setEnabled(true);
+                editWeight.setEnabled(true);
+                editHeight.setEnabled(true);
+                editGender.setEnabled(true);
+
+                textBMI.setVisibility(View.INVISIBLE);
+                valueBMI.setVisibility(View.INVISIBLE);
+                textBMR.setVisibility(View.INVISIBLE);
+                valueBMR.setVisibility(View.INVISIBLE);
+            }
+            else
+            {
+                Profile profile = new Profile();
+                int count = 0;
+
+                if(editAge.getText().toString().matches(""))
+                {
+                    editAge.setError(getText(R.string.no_age));
+                }
+                else if(editAge.getText().toString().length() > 2)
+                {
+                    editAge.setError(getText(R.string.large_age));
+                }
+                else
+                {
+                    profile.setAge(Integer.parseInt(editAge.getText().toString()));
+                    count++;
+                }
+
+                if(editName.getText().toString().matches(""))
+                {
+                    editName.setError(getText(R.string.no_name));
+                }
+                else
+                {
+                    profile.setName(editName.getText().toString());
+                    count++;
+                }
+
+                if(editWeight.getText().toString().matches(""))
+                {
+                    editWeight.setError(getText(R.string.no_weight));
+                }
+                else if(Integer.parseInt(editWeight.getText().toString()) > 200)
+                {
+                    editWeight.setError(getText(R.string.large_weight));
+                }
+                else
+                {
+                    profile.setWeight(Integer.parseInt(editWeight.getText().toString()));
+                    count++;
+                }
+
+                if(editHeight.getText().toString().matches(""))
+                {
+                    editHeight.setError(getText(R.string.no_height));
+                }
+                else if(Integer.parseInt(editHeight.getText().toString()) > 215 || Integer.parseInt(editHeight.getText().toString()) < 1)
+                {
+                    editHeight.setError(getText(R.string.large_height));
+                }
+                else
+                {
+                    profile.setHeight(Integer.parseInt(editHeight.getText().toString()));
+                    count++;
+                }
+
+                profile.setSex(editGender.isChecked());
+                count++;
+
+                if(count == 5)
+                {
+                    item.setIcon(R.mipmap.ic_mode_edit_white_24dp);
+                    if(dbHandler.getProfile().getId() != 1)
+                    {
+                        dbHandler.addProfile(profile);
+                    }
+                    else
+                    {
+                        dbHandler.updateProfile(profile);
+                    }
+
+                    editAge.setEnabled(false);
+                    editName.setEnabled(false);
+                    editWeight.setEnabled(false);
+                    editHeight.setEnabled(false);
+                    editGender.setEnabled(false);
+
+                    calculateStats();
+
+                    textBMI.setVisibility(View.VISIBLE);
+                    valueBMI.setVisibility(View.VISIBLE);
+                    textBMR.setVisibility(View.VISIBLE);
+                    valueBMR.setVisibility(View.VISIBLE);
+
+                    saved.show();
+                }
+                else
+                {
+                    missing_fields.show();
+                    editMode = true;
+                }
+            }
         }
         else if (id == android.R.id.home)
         {
-            if(save.getVisibility() == View.VISIBLE )
+            if(editMode)
             {
                 back_toast.show();
                 return true;
@@ -145,103 +244,10 @@ public class ProfileActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void savePreferences(View view)
-    {
-        Profile profile = new Profile();
-        int count = 0;
-
-        if(editAge.getText().toString().matches(""))
-        {
-            editAge.setError(getText(R.string.no_age));
-        }
-        else if(editAge.getText().toString().length() > 2)
-        {
-            editAge.setError(getText(R.string.large_age));
-        }
-        else
-        {
-            profile.setAge(Integer.parseInt(editAge.getText().toString()));
-            count++;
-        }
-
-        if(editName.getText().toString().matches(""))
-        {
-            editName.setError(getText(R.string.no_name));
-        }
-        else
-        {
-            profile.setName(editName.getText().toString());
-            count++;
-        }
-
-        if(editWeight.getText().toString().matches(""))
-        {
-            editWeight.setError(getText(R.string.no_weight));
-        }
-        else if(Integer.parseInt(editWeight.getText().toString()) > 200)
-        {
-            editWeight.setError(getText(R.string.large_weight));
-        }
-        else
-        {
-            profile.setWeight(Integer.parseInt(editWeight.getText().toString()));
-            count++;
-        }
-
-        if(editHeight.getText().toString().matches(""))
-        {
-            editHeight.setError(getText(R.string.no_height));
-        }
-        else if(Integer.parseInt(editHeight.getText().toString()) > 215 || Integer.parseInt(editHeight.getText().toString()) < 1)
-        {
-            editHeight.setError(getText(R.string.large_height));
-        }
-        else
-        {
-            profile.setHeight(Integer.parseInt(editHeight.getText().toString()));
-            count++;
-        }
-
-        profile.setSex(editGender.isChecked());
-        count++;
-
-        if(count == 5)
-        {
-            if(dbHandler.getProfile().getId() != 1)
-            {
-                dbHandler.addProfile(profile);
-            }
-            else
-            {
-                dbHandler.updateProfile(profile);
-            }
-
-            save.setVisibility(View.INVISIBLE);
-            editAge.setEnabled(false);
-            editName.setEnabled(false);
-            editWeight.setEnabled(false);
-            editHeight.setEnabled(false);
-            editGender.setEnabled(false);
-
-            calculateStats();
-
-            textBMI.setVisibility(View.VISIBLE);
-            valueBMI.setVisibility(View.VISIBLE);
-            textBMR.setVisibility(View.VISIBLE);
-            valueBMR.setVisibility(View.VISIBLE);
-
-            saved.show();
-        }
-        else
-        {
-            missing_fields.show();
-        }
-    }
-
     @Override
     public void onBackPressed()
     {
-        if(save.getVisibility() == View.VISIBLE )
+        if(editMode)
         {
             back_toast.show();
         }

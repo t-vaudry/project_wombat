@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
-import java.text.StringCharacterIterator;
 
 public class ProfileActivity extends AppCompatActivity {
     EditText editAge;

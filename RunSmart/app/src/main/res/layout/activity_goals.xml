@@ -12,8 +12,8 @@
         android:id="@+id/goalText"
         android:textColor="@color/colorPrimary"
         android:textSize="30sp"
-        android:paddingTop="7dp"
-        android:paddingBottom="3dp"
+        android:paddingTop="7sp"
+        android:paddingBottom="3sp"
         android:layout_gravity="center_horizontal"/>
 
     <LinearLayout
@@ -37,7 +37,7 @@
             android:layout_gravity="center_horizontal">
 
             <EditText
-                android:layout_width="100dp"
+                android:layout_width="100sp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
@@ -54,13 +54,13 @@
                     android:textSize="16sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="15dp"/>
+                    android:paddingTop="15sp"/>
                 <Spinner
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/spinnerRunType"
                     android:entries="@array/goal_run_type_array"
-                    android:paddingTop="15dp"/>
+                    android:paddingTop="15sp"/>
 
             </RelativeLayout>
 
@@ -75,8 +75,8 @@
             android:id="@+id/spinnerDuration"
             android:entries="@array/goal_duration_array"
             android:layout_gravity="center_horizontal"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"/>
+            android:paddingTop="15sp"
+            android:paddingBottom="15sp"/>
 
     </LinearLayout>
 
@@ -93,6 +93,6 @@
         android:id="@+id/goalList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="15dp"/>
+        android:paddingTop="15sp"/>
 
 </LinearLayout>

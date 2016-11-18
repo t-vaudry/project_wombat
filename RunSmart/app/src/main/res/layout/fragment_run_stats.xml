@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="10sp">
 
             <Spinner
                 android:layout_width="wrap_content"
@@ -31,8 +31,8 @@
             android:layout_width="match_parent"
             android:layout_height="200dip"
             android:id="@+id/runGraph"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp"/>
 
         <Spinner
             android:layout_width="wrap_content"
@@ -44,7 +44,7 @@
             android:id="@android:id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="10dp"/>
+            android:paddingBottom="10sp"/>
 
     </LinearLayout>
 

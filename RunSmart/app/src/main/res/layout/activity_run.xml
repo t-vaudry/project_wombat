@@ -27,20 +27,20 @@
         android:textSize="75sp"
         android:layout_above="@+id/distanceView"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="33dp" />
+        android:layout_marginBottom="33sp" />
 
     <Button
         android:text="Stop"
         android:textColor="@color/colorPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
+        android:paddingLeft="16sp"
+        android:paddingRight="16sp"
         android:onClick="stopRun"
         android:id="@+id/buttonStop"
         android:background="@drawable/stop_button"
         android:textSize="50sp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="76sp"
         android:layout_below="@+id/distanceView"
         android:layout_centerHorizontal="true" />
 

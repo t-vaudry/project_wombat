@@ -15,24 +15,24 @@
         android:minHeight="?android:attr/listPreferredItemHeightSmall"/>
 
     <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="0sp"
+        android:layout_height="0sp"
         android:layout_weight="1"
         android:clickable="false"/>
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingEnd="10dp"
+        android:paddingTop="5sp"
+        android:paddingEnd="10sp"
         android:id="@+id/statsIcon"
         android:src="@mipmap/ic_poll_black_36dp" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingEnd="10dp"
+        android:paddingTop="5sp"
+        android:paddingEnd="10sp"
         android:id="@+id/mapIcon"
         android:src="@mipmap/ic_place_black_36dp" />
 

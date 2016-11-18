@@ -120,8 +120,7 @@ public class RunActivity extends AppCompatActivity {
         chronometer.stop();
         chronometer.setBase(SystemClock.elapsedRealtime());
 
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        finish();
     }
 
 }

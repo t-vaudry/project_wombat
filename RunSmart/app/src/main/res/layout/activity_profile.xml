@@ -16,9 +16,9 @@
         android:id="@+id/name"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="38dp"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="38dp" />
+        android:layout_marginLeft="38sp"
+        android:layout_marginStart="38sp"
+        android:layout_marginTop="38sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
         android:layout_below="@+id/editAge"
         android:layout_alignLeft="@+id/editAge"
         android:layout_alignStart="@+id/editAge"
-        android:layout_marginTop="58dp" />
+        android:layout_marginTop="58sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -125,7 +125,7 @@
         android:layout_below="@+id/textBMI"
         android:layout_alignLeft="@+id/textBMI"
         android:layout_alignStart="@+id/textBMI"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="30sp"
         android:id="@+id/valueBMI" />
 
     <TextView

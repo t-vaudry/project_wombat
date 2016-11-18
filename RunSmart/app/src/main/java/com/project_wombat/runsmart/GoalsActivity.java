@@ -183,6 +183,10 @@ public class GoalsActivity extends AppCompatActivity {
         {
             mEditValue.setError(getText(R.string.no_goal));
         }
+        else if(mEditValue.getText().toString().matches("0"))
+        {
+            mEditValue.setError(getText(R.string.goal_zero));
+        }
         else
         {
             mTitleText.setText(R.string.goal_title);

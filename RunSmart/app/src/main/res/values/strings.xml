@@ -28,6 +28,7 @@
     <string name="no_goal">This value cannot be empty.</string>
     <string name="goal_title">Current Goals:</string>
     <string name="add_goal">Add a Goal:</string>
+    <string name="goal_zero">Goal cannot be set to 0.</string>
 
     <string name="goal_type_prompt">Select Goal Type</string>
     <string-array name="goal_type_array">

@@ -53,7 +53,8 @@ public class LoadScreenActivity extends AppCompatActivity {
 
                 @Override
                 public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                    // TODO Auto-generated method stub
+                    final Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                    startActivity(intent);
 
                 }
             });

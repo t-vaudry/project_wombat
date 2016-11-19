@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
         mNavItems.add(new NavItem("Profile", "View personal information", R.mipmap.ic_person_black_24dp));
         mNavItems.add(new NavItem("Goals", "View and set personal goals", R.mipmap.ic_stars_black_24dp));
         mNavItems.add(new NavItem("Statistics", "View historical data", R.mipmap.ic_show_chart_black_24dp));
+        mNavItems.add(new NavItem("High Scores", "View high scores", R.mipmap.trophy));
 
         // DrawerLayout
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -307,6 +308,11 @@ public class MainActivity extends AppCompatActivity {
         else if(mNavItems.get(position).mTitle.equals("Goals"))
         {
             Intent intent = new Intent(this, GoalsActivity.class);
+            startActivity(intent);
+        }
+        else if(mNavItems.get(position).mTitle.equals("High Scores"))
+        {
+            Intent intent = new Intent(this, HighScoreActivity.class);
             startActivity(intent);
         }
     }

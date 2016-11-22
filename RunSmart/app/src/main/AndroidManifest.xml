@@ -24,6 +24,9 @@
         <service
             android:name=".StepCounter"
             android:enabled="true" />
+        <service
+            android:name=".GoalNotifications"
+            android:enabled="true" />
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"

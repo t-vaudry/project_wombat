@@ -133,6 +133,9 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Intent intent = new Intent(this,GoalNotifications.class);
+        startService(intent);
+
         stepCountView = (TextView) findViewById(R.id.stepCountView);
 
         myBroadcastReceiver = new StepCountBroadcastReceiver();

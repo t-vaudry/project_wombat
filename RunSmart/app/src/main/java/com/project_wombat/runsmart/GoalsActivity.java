@@ -1,5 +1,9 @@
 package com.project_wombat.runsmart;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -40,6 +44,8 @@ public class GoalsActivity extends AppCompatActivity {
     private GoalAdapter mGoalAdapter;
     private ListView mGoalListView;
 
+    private MyBroadcastReceiver myBroadcastReceiver;
+
     private ArrayList<GoalModel> mGoalListItems;
     //private ArrayList<String> mProgressListItems;
 
@@ -49,6 +55,11 @@ public class GoalsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goals);
+
+        myBroadcastReceiver = new GoalsActivity.MyBroadcastReceiver();
+        IntentFilter intentFilter = new IntentFilter(StepCounter.ACTION_UPDATE);
+        intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
+        registerReceiver(myBroadcastReceiver, intentFilter);
 
         dbHandler = new DBHandler(this);
 
@@ -110,6 +121,7 @@ public class GoalsActivity extends AppCompatActivity {
                     mGoals.remove(position);
                     mGoalListItems.remove(position);
                     mGoalAdapter.notifyDataSetChanged();
+                    StaticData.getInstance().setGoalChanged(true);
                 }
             }
         });
@@ -244,6 +256,7 @@ public class GoalsActivity extends AppCompatActivity {
             Goal goal = new Goal(goalType, durationType, Integer.parseInt(mEditValue.getText().toString()), startDate, endDate);
             dbHandler.addGoal(goal);
             mGoals.add(goal);
+            StaticData.getInstance().setGoalChanged(true);
 
             //Update progress for newly added goal
             getProgress(goal);
@@ -371,7 +384,6 @@ public class GoalsActivity extends AppCompatActivity {
 
     public void loadCurrentGoals()
     {
-        List<Goal> goals = dbHandler.getAllGoals();
         int typeInt;
         String type;
         String value;
@@ -381,7 +393,11 @@ public class GoalsActivity extends AppCompatActivity {
         int icon = 0;
         
 
-        for(Goal goal : goals)
+        mGoalListItems.clear();
+        mGoals.clear();
+        mGoals = dbHandler.getAllGoals();
+
+        for(Goal goal : mGoals)
         {
             TextView textView = new TextView(this);
             typeInt = goal.getGoalType();
@@ -431,4 +447,18 @@ public class GoalsActivity extends AppCompatActivity {
         }
         mGoalAdapter.notifyDataSetChanged();
     }
+
+    public class MyBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String changed = intent.getStringExtra(GoalNotifications.EXTRA_KEY_DELETED);
+
+            if (changed != null)
+            {
+                loadCurrentGoals();
+            }
+        }
+    }
+
 }

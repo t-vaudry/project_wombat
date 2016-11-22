@@ -55,8 +55,6 @@ public class GoalNotifications extends IntentService
             int percentage = 0;
             for (int i = 0; i < mGoals.size(); i++)
             {
-                Intent swipeIntent = new Intent(this, MyBroadcastReceiver.class);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 0, swipeIntent, 0);
                 String notificationText = "";
                 switch(mGoals.get(i).getGoalType())
                 {
@@ -114,7 +112,6 @@ public class GoalNotifications extends IntentService
                                     .setSmallIcon(R.mipmap.ic_stars_white_24dp)
                                     .setContentTitle(getText(R.string.app_name)+ ": Goal Completed!")
                                     .setContentText(notificationText);
-                    mBuilder.setDeleteIntent(pendingIntent);
 // Creates an explicit intent for an Activity in your app
                     Intent resultIntent = new Intent(this, GoalsActivity.class);
 
@@ -163,13 +160,5 @@ public class GoalNotifications extends IntentService
             }
             catch(InterruptedException e) {}
         }
-    }
-
-    public class MyBroadcastReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-        }
-
     }
 }

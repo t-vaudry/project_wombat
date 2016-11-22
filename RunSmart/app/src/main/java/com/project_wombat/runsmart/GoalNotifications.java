@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,6 +25,7 @@ public class GoalNotifications extends IntentService
     private int mId = 0;
     private boolean mChanged = false;
 
+    private long today;
     private final Context mContext = this;
     DBHandler dbHandler = new DBHandler(mContext);
 
@@ -37,6 +39,7 @@ public class GoalNotifications extends IntentService
 
         //get all currently saved goals
         mGoals = dbHandler.getAllGoals();
+
     }
     @Override
     protected void onHandleIntent(Intent intent)
@@ -51,11 +54,27 @@ public class GoalNotifications extends IntentService
                 mGoals = dbHandler.getAllGoals();
             }
 
+            Date todayDate = new Date();
+            today = todayDate.getTime()/1000;
+
             int count = 0;
             int percentage = 0;
             for (int i = 0; i < mGoals.size(); i++)
             {
+                boolean failed = false;
+                String notificationTitle = "";
                 String notificationText = "";
+
+                //if goal has expired
+                if (mGoals.get(i).getEndDate() < today)
+                {
+                    notificationTitle = getText(R.string.app_name)+ ": Goal Failed";
+                    failed = true;
+                }
+                else
+                {
+                    notificationTitle = getText(R.string.app_name)+ ": Goal Completed!";
+                }
                 switch(mGoals.get(i).getGoalType())
                 {
                     //Walk
@@ -84,7 +103,7 @@ public class GoalNotifications extends IntentService
                         break;
                 }
                 //if percentage >= 100: push notification
-                if (percentage >= 100)
+                if (percentage >= 100 || failed)
                 {
                     mId++;
 
@@ -110,7 +129,7 @@ public class GoalNotifications extends IntentService
                     NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(this)
                                     .setSmallIcon(R.mipmap.ic_stars_white_24dp)
-                                    .setContentTitle(getText(R.string.app_name)+ ": Goal Completed!")
+                                    .setContentTitle(notificationTitle)
                                     .setContentText(notificationText);
 // Creates an explicit intent for an Activity in your app
                     Intent resultIntent = new Intent(this, GoalsActivity.class);

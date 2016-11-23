@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +23,9 @@ public class RunActivity extends AppCompatActivity {
     DBHandler dbHandler;
     MyBroadcastReceiver myBroadcastReceiver;
     Toast back_toast;
+    Button pauseButton;
+    Button resumeButton;
+    long timeWhenPaused;
 
     //Text views
     TextView distanceView;
@@ -40,6 +44,10 @@ public class RunActivity extends AppCompatActivity {
         dbHandler = new DBHandler(this);
         myBroadcastReceiver = new MyBroadcastReceiver();
 
+        pauseButton = (Button) findViewById(R.id.buttonPause);
+        resumeButton = (Button) findViewById(R.id.buttonResume);
+        timeWhenPaused = 0;
+
         distanceView = (TextView) findViewById(R.id.distanceView);
 
         //register receiver
@@ -47,7 +55,11 @@ public class RunActivity extends AppCompatActivity {
         intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
         registerReceiver(myBroadcastReceiver, intentFilter);
 
-        startRun();
+        if(!StaticData.getInstance().getCollectData())
+            startRun();
+        else
+            returnToRun();
+
     }
 
     @Override
@@ -66,7 +78,10 @@ public class RunActivity extends AppCompatActivity {
     @Override
     public void onBackPressed()
     {
-        back_toast.show();
+        if(!StaticData.getInstance().getPauseData())
+            back_toast.show();
+        else
+            finish();
     }
 
     @Override
@@ -76,8 +91,12 @@ public class RunActivity extends AppCompatActivity {
 
         if (id == android.R.id.home)
         {
-            back_toast.show();
-            return true;
+            if(!StaticData.getInstance().getPauseData()) {
+                back_toast.show();
+                return true;
+            }
+            else
+                finish();
         }
 
         return super.onOptionsItemSelected(item);
@@ -109,16 +128,48 @@ public class RunActivity extends AppCompatActivity {
     {
         chronometer.setBase(SystemClock.elapsedRealtime());
         chronometer.start();
+        resumeButton.setVisibility(View.GONE);
         Intent gpsIntent = new Intent(this, GPSTracker.class);
         StaticData.getInstance().setCollectData(true);
+        StaticData.getInstance().setPauseData(false);
         startService(gpsIntent);
+    }
+
+    public void returnToRun()
+    {
+        timeWhenPaused = StaticData.getInstance().getPauseTime();
+        chronometer.setBase(SystemClock.elapsedRealtime() + timeWhenPaused);
+        resumeButton.setVisibility(View.VISIBLE);
+        pauseButton.setVisibility(View.GONE);
+    }
+
+    public void pauseRun(View view)
+    {
+        StaticData.getInstance().setPauseData(true);
+        timeWhenPaused = chronometer.getBase() - SystemClock.elapsedRealtime();
+        StaticData.getInstance().setPauseTime(timeWhenPaused);
+
+        chronometer.stop();
+        resumeButton.setVisibility(View.VISIBLE);
+        pauseButton.setVisibility(View.GONE);
+    }
+
+    public void resumeRun(View view)
+    {
+        StaticData.getInstance().setPauseData(false);
+        chronometer.setBase(SystemClock.elapsedRealtime() + timeWhenPaused);
+        chronometer.start();
+        pauseButton.setVisibility(View.VISIBLE);
+        resumeButton.setVisibility(View.GONE);
     }
 
     public void stopRun(View view)
     {
         StaticData.getInstance().setCollectData(false);
+        StaticData.getInstance().setPauseData(true);
         chronometer.stop();
         chronometer.setBase(SystemClock.elapsedRealtime());
+        timeWhenPaused = 0;
 
         finish();
     }

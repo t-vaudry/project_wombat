@@ -667,4 +667,99 @@ public class DBHandler extends SQLiteOpenHelper {
 		// return trophy list
 		return trophyList;
 	}
+
+	public Run getMaxDistanceRun()
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+
+		String selectQuery = "SELECT TOP 1 * FROM " + TABLE_RUNS + " ORDER BY " + KEY_DISTANCE + " DESC";
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		if(cursor != null)
+			cursor.moveToFirst();
+
+		Run run = new Run(
+				new Date(Long.parseLong(cursor.getString(0))*1000),
+				cursor.getDouble(1),
+				cursor.getLong(2),
+				cursor.getDouble(3),
+				cursor.getDouble(4),
+				cursor.getDouble(5),
+				cursor.getDouble(6)
+		);
+
+		cursor.close();
+		db.close();
+		return run;
+	}
+
+	public Run getMaxDurationRun()
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+
+		String selectQuery = "SELECT TOP 1 * FROM " + TABLE_RUNS + " ORDER BY " + KEY_DURATION + " DESC";
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		if(cursor != null)
+			cursor.moveToFirst();
+
+		Run run = new Run(
+				new Date(Long.parseLong(cursor.getString(0))*1000),
+				cursor.getDouble(1),
+				cursor.getLong(2),
+				cursor.getDouble(3),
+				cursor.getDouble(4),
+				cursor.getDouble(5),
+				cursor.getDouble(6)
+		);
+
+		cursor.close();
+		db.close();
+		return run;
+	}
+
+	public Run getMaxSpeedRun()
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+
+		String selectQuery = "SELECT TOP 1 * FROM " + TABLE_RUNS + " ORDER BY " + KEY_AVERAGE_SPEED + " DESC";
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		if(cursor != null)
+			cursor.moveToFirst();
+
+		Run run = new Run(
+				new Date(Long.parseLong(cursor.getString(0))*1000),
+				cursor.getDouble(1),
+				cursor.getLong(2),
+				cursor.getDouble(3),
+				cursor.getDouble(4),
+				cursor.getDouble(5),
+				cursor.getDouble(6)
+		);
+
+		cursor.close();
+		db.close();
+		return run;
+	}
+
+	public Steps getMaxSteps()
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+
+		String selectQuery = "SELECT TOP 1 * FROM " + TABLE_STEPS + " ORDER BY " + KEY_STEPS + " DESC";
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		if(cursor != null)
+			cursor.moveToFirst();
+
+		Steps steps = new Steps(
+				new Date(Long.parseLong(cursor.getString(0))*1000),
+				cursor.getInt(1)
+		);
+
+		cursor.close();
+		db.close();
+		return steps;
+	}
 }

@@ -206,43 +206,49 @@ public class GPSTracker extends IntentService implements LocationListener {
         curr_distance = 0;
         beginningOfDataCollection = new Date();
         now = new Date();
+        prev = new Date();
+        long timeOnPause = 0;
 
         RunData rd;
         while (StaticData.getInstance().getCollectData()) {
-            getLocation();
-
-            //Set now to current time
             now = new Date();
+            while(!StaticData.getInstance().getPauseData()) {
+                timeOnPause += now.getTime() - prev.getTime();
+                getLocation();
 
-            curr_latitude = getLatitude();
-            curr_longitude = getLongitude();
+                //Set now to current time
+                now = new Date();
 
-            if (prev_longitude == 0.0 || prev_latitude == 0.0) {
-                distanceDifferential = 0.0;
-                curr_speed = 0.0;
-            } else {
-                distanceDifferential = getDistance(curr_latitude, curr_longitude, prev_latitude, prev_longitude);
-                curr_speed = distanceDifferential / ((now.getTime() - prev.getTime()) / 1000);
+                curr_latitude = getLatitude();
+                curr_longitude = getLongitude();
+
+                if (prev_longitude == 0.0 || prev_latitude == 0.0) {
+                    distanceDifferential = 0.0;
+                    curr_speed = 0.0;
+                } else {
+                    distanceDifferential = getDistance(curr_latitude, curr_longitude, prev_latitude, prev_longitude);
+                    curr_speed = distanceDifferential / ((now.getTime() - prev.getTime()) / 1000);
+                }
+                curr_distance += distanceDifferential;
+
+                Intent intentUpdate = new Intent();
+                intentUpdate.setAction(ACTION_UPDATE);
+                intentUpdate.addCategory(Intent.CATEGORY_DEFAULT);
+                intentUpdate.putExtra(EXTRA_KEY_DISTANCE, Double.toString(curr_distance));
+                intentUpdate.putExtra(EXTRA_KEY_SPEED, Double.toString(curr_speed));
+                sendBroadcast(intentUpdate);
+
+                rd = new RunData(beginningOfDataCollection, curr_speed, curr_latitude, curr_longitude, now.getTime() - beginningOfDataCollection.getTime());
+                dbHandler.addRunData(rd);
+
+                prev_latitude = curr_latitude;
+                prev_longitude = curr_longitude;
+                prev = now;
             }
-            curr_distance += distanceDifferential;
-
-            Intent intentUpdate = new Intent();
-            intentUpdate.setAction(ACTION_UPDATE);
-            intentUpdate.addCategory(Intent.CATEGORY_DEFAULT);
-            intentUpdate.putExtra(EXTRA_KEY_DISTANCE, Double.toString(curr_distance));
-            intentUpdate.putExtra(EXTRA_KEY_SPEED, Double.toString(curr_speed));
-            sendBroadcast(intentUpdate);
-
-            rd = new RunData(beginningOfDataCollection, curr_speed, curr_latitude, curr_longitude, now.getTime() - beginningOfDataCollection.getTime());
-            dbHandler.addRunData(rd);
-
-            prev_latitude = curr_latitude;
-            prev_longitude = curr_longitude;
-            prev = now;
         }
 
         //Log entire run to database
-        Run run = new Run(beginningOfDataCollection, curr_distance, now.getTime() - beginningOfDataCollection.getTime(), (curr_distance / 1000.0) / ((now.getTime() - beginningOfDataCollection.getTime()) / 3600000.0), 0.0, 0.0, 0.0);
+        Run run = new Run(beginningOfDataCollection, curr_distance, now.getTime() - beginningOfDataCollection.getTime() - timeOnPause, (curr_distance / 1000.0) / ((now.getTime() - beginningOfDataCollection.getTime() - timeOnPause) / 3600000.0), 0.0, 0.0, 0.0);
         dbHandler.addRun(run);
     }
 

@@ -192,8 +192,8 @@ public class MainActivity extends AppCompatActivity {
         dbHandler = new DBHandler(this);
 
         //Set up walk listener
-        RelativeLayout relativeclic1 =(RelativeLayout)findViewById(R.id.walkLayout);
-        relativeclic1.setOnClickListener(new View.OnClickListener(){
+        RelativeLayout relativeclick =(RelativeLayout)findViewById(R.id.walkLayout);
+        relativeclick.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 countSteps(v);            }

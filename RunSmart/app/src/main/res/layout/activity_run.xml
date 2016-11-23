@@ -29,8 +29,43 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="33sp" />
 
+    <RelativeLayout
+        android:id="@+id/buttonLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/distanceView"
+        android:layout_centerHorizontal="true">
+        <Button
+            android:text="PAUSE"
+            android:textColor="@color/colorPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16sp"
+            android:paddingRight="16sp"
+            android:onClick="pauseRun"
+            android:id="@+id/buttonPause"
+            android:background="@drawable/stop_button"
+            android:textSize="50sp"
+            android:layout_marginTop="40sp"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:text="RESUME"
+            android:textColor="@color/colorPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16sp"
+            android:paddingRight="16sp"
+            android:onClick="resumeRun"
+            android:id="@+id/buttonResume"
+            android:background="@drawable/stop_button"
+            android:textSize="50sp"
+            android:layout_marginTop="40sp"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
     <Button
-        android:text="Stop"
+        android:text="STOP"
         android:textColor="@color/colorPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,8 +75,8 @@
         android:id="@+id/buttonStop"
         android:background="@drawable/stop_button"
         android:textSize="50sp"
-        android:layout_marginTop="76sp"
-        android:layout_below="@+id/distanceView"
+        android:layout_marginTop="20sp"
+        android:layout_below="@+id/buttonLayout"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

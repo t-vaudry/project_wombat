@@ -205,6 +205,7 @@ public class GPSTracker extends IntentService implements LocationListener {
 
         curr_distance = 0;
         beginningOfDataCollection = new Date();
+        StaticData.getInstance().setRunTime(beginningOfDataCollection.getTime());
         now = new Date();
         prev = new Date();
         long timeOnPause = 0;

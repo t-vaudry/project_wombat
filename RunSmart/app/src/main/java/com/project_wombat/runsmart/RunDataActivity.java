@@ -2,6 +2,8 @@ package com.project_wombat.runsmart;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Chronometer;
 import android.widget.TextView;
 
@@ -26,6 +28,16 @@ public class RunDataActivity extends AppCompatActivity {
         setContentView(R.layout.activity_run_data);
 
         extras = getIntent().getExtras();
+
+        if(extras.getBoolean("RUN_ACTIVITY", false))
+        {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
+        else
+        {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         dbHandler = new DBHandler(this);
         runDate = new Date();
 
@@ -39,6 +51,25 @@ public class RunDataActivity extends AppCompatActivity {
         calories = (TextView) findViewById(R.id.calories);
         before_hr = (TextView) findViewById(R.id.before_heart_rate);
         after_hr = (TextView) findViewById(R.id.after_heart_rate);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        if(extras.getBoolean("RUN_ACTIVITY", false))
+            getMenuInflater().inflate(R.menu.runmenu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.done)
+        {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -63,5 +94,11 @@ public class RunDataActivity extends AppCompatActivity {
         before_hr.setText(str);
         str = Double.toString(run.getHeartRateAfter()) + " bpm";
         after_hr.setText(str);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        // do nothing
     }
 }

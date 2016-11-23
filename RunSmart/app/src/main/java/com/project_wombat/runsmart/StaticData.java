@@ -9,6 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class StaticData {
     private static StaticData mInstance = null;
+    private long runTime;
     private boolean collectData;
     private boolean pauseData;
     private long pauseTime;
@@ -18,6 +19,7 @@ public class StaticData {
 
     private StaticData()
     {
+        runTime = 0;
         collectData = false;
         pauseData = false;
         countSteps = false;
@@ -33,6 +35,7 @@ public class StaticData {
         return mInstance;
     }
 
+    public long getRunTime() { return this.runTime; }
     public boolean getCollectData()
     {
         return this.collectData;
@@ -47,6 +50,7 @@ public class StaticData {
         goalLock.unlock();
         return change;
     }
+    public void setRunTime(long val) { runTime = val; }
     public void setCollectData(boolean val)
     {
         collectData = val;

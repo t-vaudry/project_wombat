@@ -108,7 +108,6 @@ public class RunActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             String distance = intent.getStringExtra(GPSTracker.EXTRA_KEY_DISTANCE);
 
-
             if (distance != null)
             {
                 DecimalFormat numbers = new DecimalFormat("0.000");
@@ -171,6 +170,11 @@ public class RunActivity extends AppCompatActivity {
         chronometer.setBase(SystemClock.elapsedRealtime());
         timeWhenPaused = 0;
 
+        Intent intent = new Intent(this, RunDataActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("TIME_STAMP", StaticData.getInstance().getRunTime());
+        intent.putExtra("RUN_ACTIVITY", true);
+        startActivity(intent);
         finish();
     }
 

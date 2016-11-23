@@ -68,15 +68,14 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".RunDataActivity"
-            android:parentActivityName=".StatsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".GoalsActivity"
             android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity android:name=".HighScoreActivity"
             android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

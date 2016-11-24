@@ -24,8 +24,8 @@ public class WalkStatsFragment extends ListFragment {
     private Date now;
     private GraphView walkGraph;
     private ListView listView;
-    private ArrayList<String> listItems;
-    private ArrayAdapter<String> adapter;
+    private ArrayList<WalkModel> listItems;
+    private ArrayAdapter<WalkModel> adapter;
     private DBHandler dbHandler;
     private Spinner monthSpinner;
     private Spinner yearSpinner;
@@ -55,7 +55,7 @@ public class WalkStatsFragment extends ListFragment {
         yearSpinner = (Spinner) view.findViewById(R.id.yearSpinner);
         walkGraph = (GraphView) view.findViewById(R.id.walkGraph);
         listView = (ListView) view.findViewById(android.R.id.list);
-        listItems = new ArrayList<String>();
+        listItems = new ArrayList<WalkModel>();
         dbHandler = new DBHandler(getContext());
 
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -88,7 +88,7 @@ public class WalkStatsFragment extends ListFragment {
 
         monthSpinner.setSelection(now.getMonth());
 
-        adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, listItems);
+        adapter = new WalkAdapter(getContext(), listItems);
         listView.setAdapter(adapter);
 
         series = new PointsGraphSeries<>(refreshStats(now.getMonth()));
@@ -128,7 +128,8 @@ public class WalkStatsFragment extends ListFragment {
         {
             Date stepTime = new Date(steps.get(i).getTimeStamp()*1000);
             points[i] = new DataPoint(stepTime.getDate(), steps.get(i).getSteps());
-            listItems.add(DateUtils.format(steps.get(i).getTimeStamp(), false));
+            WalkModel walkModel = new WalkModel(DateUtils.format(steps.get(i).getTimeStamp(), false), Integer.toString(steps.get(i).getSteps()));
+            listItems.add(walkModel);
         }
 
         adapter.notifyDataSetChanged();

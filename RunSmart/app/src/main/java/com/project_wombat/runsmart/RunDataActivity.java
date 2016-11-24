@@ -1,9 +1,12 @@
 package com.project_wombat.runsmart;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TextView;
 
@@ -19,14 +22,14 @@ public class RunDataActivity extends AppCompatActivity {
     private TextView speed;
     private Chronometer timer;
     private TextView calories;
-    private TextView before_hr;
-    private TextView after_hr;
+    private Button mapButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_run_data);
 
+        mapButton = (Button) findViewById(R.id.mapButton);
         extras = getIntent().getExtras();
 
         if(extras.getBoolean("RUN_ACTIVITY", false))
@@ -36,6 +39,7 @@ public class RunDataActivity extends AppCompatActivity {
         else
         {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            mapButton.setVisibility(View.GONE);
         }
 
         dbHandler = new DBHandler(this);
@@ -49,8 +53,6 @@ public class RunDataActivity extends AppCompatActivity {
         speed = (TextView) findViewById(R.id.speed);
         timer = (Chronometer) findViewById(R.id.durationClock);
         calories = (TextView) findViewById(R.id.calories);
-        before_hr = (TextView) findViewById(R.id.before_heart_rate);
-        after_hr = (TextView) findViewById(R.id.after_heart_rate);
     }
 
     @Override
@@ -68,6 +70,19 @@ public class RunDataActivity extends AppCompatActivity {
         if(id == R.id.done)
         {
             finish();
+        }
+        else if (id == android.R.id.home)
+        {
+            extras = getIntent().getExtras();
+
+            if(extras.getBoolean("RUN_ACTIVITY", false))
+            {
+                return true;
+            }
+            else
+            {
+                finish();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -90,15 +105,27 @@ public class RunDataActivity extends AppCompatActivity {
         timer.setBase(timer.getBase()-run.getDuration());
         str = Double.toString(((3.5*dbHandler.getProfile().getWeight()*8)/200)*(run.getDuration()/60000)) + " cal";
         calories.setText(str);
-        str = Double.toString(run.getHeartRateBefore()) + " bpm";
-        before_hr.setText(str);
-        str = Double.toString(run.getHeartRateAfter()) + " bpm";
-        after_hr.setText(str);
     }
 
     @Override
     public void onBackPressed()
     {
-        // do nothing
+        extras = getIntent().getExtras();
+
+        if(extras.getBoolean("RUN_ACTIVITY", false))
+        {
+            //do nothing
+        }
+        else
+        {
+            finish();
+        }
+    }
+
+    public void viewMap(View view)
+    {
+        Intent intent = new Intent(this, MapActivity.class);
+        intent.putExtra("TIME_STAMP", StaticData.getInstance().getRunTime());
+        startActivity(intent);
     }
 }

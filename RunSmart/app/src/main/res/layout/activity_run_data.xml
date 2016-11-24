@@ -153,63 +153,18 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20sp"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_favorite_black_36dp"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10sp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/before_heart_rate"
-                android:textSize="14sp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/before_hr"
-                android:textSize="12sp"/>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="1sp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="10sp"
-            android:layout_marginEnd="10sp"
-            android:background="@android:color/darker_gray"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/after_heart_rate"
-                android:textSize="14sp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/after_hr"
-                android:textSize="12sp"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
+        android:id="@+id/mapButton"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/stop_button"
+        android:drawableLeft="@mipmap/ic_place_black_36dp"
+        android:paddingTop="16sp"
+        android:paddingBottom="16sp"
+        android:paddingStart="16sp"
+        android:paddingEnd="16sp"
+        android:text="View Map"
+        android:onClick="viewMap"/>
 
 </LinearLayout>

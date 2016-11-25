@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/background"
             android:adjustViewBounds="true"
+            android:scaleType="fitXY"
             android:id="@+id/imageView" />
 
         <com.facebook.login.widget.ProfilePictureView
@@ -33,7 +34,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="25sp">
+        android:paddingStart="25sp"
+        android:paddingEnd="25sp"
+        android:paddingBottom="15sp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -218,16 +221,23 @@
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="13dp" />
+        android:layout_gravity="center_horizontal" />
 
-    <CheckBox
-        android:text="@string/google_maps"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textColor="@color/colorText"
-        android:id="@+id/checkBox"
-        android:checked="true" />
+        android:paddingTop="10sp"
+        android:layout_gravity="center_horizontal">
+
+        <CheckBox
+            android:text="@string/google_maps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/colorText"
+            android:id="@+id/checkBox"
+            android:checked="true" />
+
+    </LinearLayout>
 
 </LinearLayout>

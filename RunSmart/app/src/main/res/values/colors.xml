@@ -5,6 +5,6 @@
     <color name="colorAccent">#5b6775</color>
     <color name="colorText">#292f36</color>
     <color name="colorSubText">#343b44</color>
-    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorBackground">#E3E3E3</color>
     <color name="colorNavigationDrawer">#EEEEEE</color>
 </resources>

@@ -73,7 +73,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onError(FacebookException exception) {
-                // App code
+                Toast.makeText(getApplicationContext(), "Error logging into Facebook", Toast.LENGTH_SHORT).show();
             }
         });
 

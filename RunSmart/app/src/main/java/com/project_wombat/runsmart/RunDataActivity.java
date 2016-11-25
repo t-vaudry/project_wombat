@@ -35,6 +35,8 @@ public class RunDataActivity extends AppCompatActivity {
         if(extras.getBoolean("RUN_ACTIVITY", false))
         {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            if(!dbHandler.getProfile().getUseGoogleMaps())
+                mapButton.setVisibility(View.GONE);
         }
         else
         {

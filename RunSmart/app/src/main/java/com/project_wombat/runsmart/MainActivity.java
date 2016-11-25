@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        if (dbHandler.getProfile().getName() == null) {
+        if (dbHandler.getProfile().getName().matches("")) {
             Intent intent = new Intent(this, NoProfileActivity.class);
             startActivity(intent);
         }

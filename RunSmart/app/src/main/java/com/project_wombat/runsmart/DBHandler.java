@@ -33,7 +33,9 @@ public class DBHandler extends SQLiteOpenHelper {
 	private static final String KEY_DISTANCE = "distance";
 	private static final String KEY_DURATION = "duration";
 	private static final String KEY_END_DATE = "end_date";
+	private static final String KEY_FACEBOOK = "facebook";
 	private static final String KEY_GOAL_TYPE = "goal_type";
+	private static final String KEY_GOOGLE_MAPS = "google_maps";
 	private static final String KEY_HEART_RATE_AFTER = "heart_rate_after";
 	private static final String KEY_HEART_RATE_BEFORE = "heart_rate_before";
 	private static final String KEY_HEIGHT = "height";
@@ -79,7 +81,8 @@ public class DBHandler extends SQLiteOpenHelper {
 		+ KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
 		+ KEY_NAME + " TEXT," + KEY_AGE + " INTEGER,"
 		+ KEY_SEX + " TEXT," + KEY_WEIGHT + " INTEGER,"
-		+ KEY_HEIGHT + " INTEGER" + ")";
+		+ KEY_HEIGHT + " INTEGER," + KEY_FACEBOOK + " TEXT,"
+		+ KEY_GOOGLE_MAPS + " TEXT" + ")";
 		db.execSQL(CREATE_TABLE);
 
 		// Create runData table
@@ -437,6 +440,8 @@ public class DBHandler extends SQLiteOpenHelper {
 		values.put(KEY_SEX, profile.getSex());
 		values.put(KEY_WEIGHT, profile.getWeight());
 		values.put(KEY_HEIGHT, profile.getHeight());
+		values.put(KEY_FACEBOOK, profile.getUseFacebook());
+		values.put(KEY_GOOGLE_MAPS, profile.getUseGoogleMaps());
 
 		// Inserting row
 		db.insert(TABLE_PROFILE, null, values);
@@ -459,7 +464,9 @@ public class DBHandler extends SQLiteOpenHelper {
             Integer.parseInt(cursor.getString(2)),
             cursor.getString(3).matches("1"),
             Integer.parseInt(cursor.getString(4)),
-            Integer.parseInt(cursor.getString(5))
+            Integer.parseInt(cursor.getString(5)),
+			cursor.getString(6).matches("1"),
+			cursor.getString(7).matches("1")
             );
         }
 
@@ -479,6 +486,8 @@ public class DBHandler extends SQLiteOpenHelper {
 		values.put(KEY_SEX, new_profile.getSex());
 		values.put(KEY_WEIGHT, new_profile.getWeight());
 		values.put(KEY_HEIGHT, new_profile.getHeight());
+		values.put(KEY_FACEBOOK, new_profile.getUseFacebook());
+		values.put(KEY_GOOGLE_MAPS, new_profile.getUseGoogleMaps());
 
 		// updating row
 		db.update(TABLE_PROFILE, values, KEY_ID + " = ?",

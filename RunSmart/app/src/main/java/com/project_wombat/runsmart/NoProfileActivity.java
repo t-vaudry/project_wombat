@@ -30,7 +30,9 @@ public class NoProfileActivity extends AppCompatActivity {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                StaticData.getInstance().setUseFacebook(true);
+                Profile profile = new Profile();
+                profile.setUseFacebook(true);
+                new DBHandler(getApplicationContext()).addProfile(profile);
                 Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                 startActivity(intent);
             }
@@ -59,7 +61,9 @@ public class NoProfileActivity extends AppCompatActivity {
     }
 
     public void createProfile(View view){
-        StaticData.getInstance().setUseFacebook(false);
+        Profile profile = new Profile();
+        profile.setUseFacebook(false);
+        new DBHandler(getApplicationContext()).addProfile(profile);
         Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
         startActivity(intent);
     }

@@ -52,6 +52,7 @@ public class ProfileActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_profile);
+        dbHandler = new DBHandler(this);
 
         profilePictureView = (ProfilePictureView) findViewById(R.id.image);
 
@@ -62,7 +63,9 @@ public class ProfileActivity extends AppCompatActivity {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                StaticData.getInstance().setUseFacebook(true);
+                Profile profile = dbHandler.getProfile();
+                profile.setUseFacebook(true);
+                dbHandler.updateProfile(profile);
                 profilePictureView.setProfileId(com.facebook.Profile.getCurrentProfile().getId());
             }
 
@@ -77,7 +80,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        if(StaticData.getInstance().getUseFacebook())
+        if(dbHandler.getProfile().getUseFacebook())
             profilePictureView.setProfileId(com.facebook.Profile.getCurrentProfile().getId());
 
         // Other app specific specialization
@@ -87,7 +90,9 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldToken, AccessToken newToken) {
                 if (newToken == null){
-                    StaticData.getInstance().setUseFacebook(false);
+                    Profile profile = dbHandler.getProfile();
+                    profile.setUseFacebook(false);
+                    dbHandler.updateProfile(profile);
                     profilePictureView.setProfileId(null);
                 }
             }
@@ -112,18 +117,6 @@ public class ProfileActivity extends AppCompatActivity {
         valueBMR = (TextView) findViewById(R.id.valueBMR);
 
         checkBox = (CheckBox) findViewById(R.id.checkBox);
-
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                    StaticData.getInstance().setUseGoogleMaps(true);
-                else
-                    StaticData.getInstance().setUseGoogleMaps(false);
-            }
-        });
-
-        dbHandler = new DBHandler(this);
     }
 
     @Override
@@ -139,7 +132,7 @@ public class ProfileActivity extends AppCompatActivity {
         editMode = false;
 
         //checking if name is null
-        if(dbHandler.getProfile().getId() == 1)
+        if(!dbHandler.getProfile().getName().matches(""))
         {
             if(editItem != null)
                 editItem.setIcon(R.mipmap.ic_mode_edit_white_24dp);
@@ -150,6 +143,7 @@ public class ProfileActivity extends AppCompatActivity {
             editSex.setSelection(profile.getSex() ? 1 : 0);
             editWeight.setText(String.valueOf(profile.getWeight()));
             editHeight.setText(String.valueOf(profile.getHeight()));
+            checkBox.setChecked(profile.getUseGoogleMaps());
 
             calculateStats();
 
@@ -157,12 +151,14 @@ public class ProfileActivity extends AppCompatActivity {
             valueBMI.setVisibility(View.VISIBLE);
             textBMR.setVisibility(View.VISIBLE);
             valueBMR.setVisibility(View.VISIBLE);
+            loginButton.setVisibility(View.VISIBLE);
 
             editAge.setEnabled(false);
             editName.setEnabled(false);
             editWeight.setEnabled(false);
             editHeight.setEnabled(false);
             editSex.setEnabled(false);
+            checkBox.setEnabled(false);
 
         }
         //if name is not null
@@ -178,11 +174,13 @@ public class ProfileActivity extends AppCompatActivity {
             editWeight.setEnabled(true);
             editHeight.setEnabled(true);
             editSex.setEnabled(true);
+            checkBox.setEnabled(true);
 
             textBMI.setVisibility(View.INVISIBLE);
             valueBMI.setVisibility(View.INVISIBLE);
             textBMR.setVisibility(View.INVISIBLE);
             valueBMR.setVisibility(View.INVISIBLE);
+            loginButton.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -213,15 +211,17 @@ public class ProfileActivity extends AppCompatActivity {
                 editWeight.setEnabled(true);
                 editHeight.setEnabled(true);
                 editSex.setEnabled(true);
+                checkBox.setEnabled(true);
 
                 textBMI.setVisibility(View.INVISIBLE);
                 valueBMI.setVisibility(View.INVISIBLE);
                 textBMR.setVisibility(View.INVISIBLE);
                 valueBMR.setVisibility(View.INVISIBLE);
+                loginButton.setVisibility(View.INVISIBLE);
             }
             else
             {
-                Profile profile = new Profile();
+                Profile profile = dbHandler.getProfile();
                 int count = 0;
 
                 if(editAge.getText().toString().matches(""))
@@ -279,6 +279,8 @@ public class ProfileActivity extends AppCompatActivity {
                 profile.setSex(editSex.getSelectedItem().toString().matches("Female"));
                 count++;
 
+                profile.setUseGoogleMaps(checkBox.isSelected());
+
                 if(count == 5)
                 {
                     item.setIcon(R.mipmap.ic_mode_edit_white_24dp);
@@ -296,6 +298,7 @@ public class ProfileActivity extends AppCompatActivity {
                     editWeight.setEnabled(false);
                     editHeight.setEnabled(false);
                     editSex.setEnabled(false);
+                    checkBox.setEnabled(false);
 
                     calculateStats();
 
@@ -303,6 +306,7 @@ public class ProfileActivity extends AppCompatActivity {
                     valueBMI.setVisibility(View.VISIBLE);
                     textBMR.setVisibility(View.VISIBLE);
                     valueBMR.setVisibility(View.VISIBLE);
+                    loginButton.setVisibility(View.VISIBLE);
 
                     saved.show();
                 }

@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class RunStatsAdapter extends ArrayAdapter<String> {
 
@@ -56,9 +58,16 @@ public class RunStatsAdapter extends ArrayAdapter<String> {
         mapView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, MapActivity.class);
-                intent.putExtra("TIME_STAMP", DateUtils.parse(runArrayList.get(position)).getTime());
-                context.startActivity(intent);
+                if(new DBHandler(context).getProfile().getUseGoogleMaps()) {
+                    Intent intent = new Intent(context, MapActivity.class);
+                    intent.putExtra("TIME_STAMP", DateUtils.parse(runArrayList.get(position)).getTime());
+                    context.startActivity(intent);
+                }
+                else
+                {
+                    Toast toast = Toast.makeText(context, "Google Maps disabled.\nGo to Profile to change your settings.", Toast.LENGTH_LONG);
+                    toast.show();
+                }
             }
         });
 

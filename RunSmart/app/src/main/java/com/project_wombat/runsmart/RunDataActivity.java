@@ -1,6 +1,11 @@
 package com.project_wombat.runsmart;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,7 +13,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.facebook.share.widget.ShareButton;
 
 import java.util.Date;
 
@@ -23,11 +35,16 @@ public class RunDataActivity extends AppCompatActivity {
     private Chronometer timer;
     private TextView calories;
     private Button mapButton;
+    private ShareButton shareButton;
+    private CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_run_data);
+        dbHandler = new DBHandler(this);
 
         mapButton = (Button) findViewById(R.id.mapButton);
         extras = getIntent().getExtras();
@@ -44,7 +61,6 @@ public class RunDataActivity extends AppCompatActivity {
             mapButton.setVisibility(View.GONE);
         }
 
-        dbHandler = new DBHandler(this);
         runDate = new Date();
 
         runDate.setTime(extras.getLong("TIME_STAMP", -1));
@@ -55,6 +71,8 @@ public class RunDataActivity extends AppCompatActivity {
         speed = (TextView) findViewById(R.id.speed);
         timer = (Chronometer) findViewById(R.id.durationClock);
         calories = (TextView) findViewById(R.id.calories);
+
+        shareButton = (ShareButton) findViewById(R.id.shareButton);
     }
 
     @Override
@@ -107,6 +125,20 @@ public class RunDataActivity extends AppCompatActivity {
         timer.setBase(timer.getBase()-run.getDuration());
         str = Double.toString(((3.5*dbHandler.getProfile().getWeight()*8)/200)*(run.getDuration()/60000)) + " cal";
         calories.setText(str);
+
+        if(dbHandler.getProfile().getUseFacebook()) {
+            View rootView = getWindow().getDecorView().getRootView();
+            Bitmap b = getScreenShot(rootView);
+
+            //screenShot(this);
+            SharePhoto photo = new SharePhoto.Builder().setBitmap(b).build();
+            SharePhotoContent content = new SharePhotoContent.Builder().addPhoto(photo).build();
+            shareButton.setShareContent(content);
+        }
+        else
+            shareButton.setVisibility(View.INVISIBLE);
+
+
     }
 
     @Override
@@ -129,5 +161,17 @@ public class RunDataActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MapActivity.class);
         intent.putExtra("TIME_STAMP", StaticData.getInstance().getRunTime());
         startActivity(intent);
+    }
+
+    public static Bitmap getScreenShot(View view) {
+        view.setDrawingCacheEnabled(true);
+        view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+
+        view.buildDrawingCache(true);
+        Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
+        view.setDrawingCacheEnabled(false); // clear drawing cache
+        return bitmap;
     }
 }

@@ -41,6 +41,6 @@ public class Profile {
 	public boolean getSex() { return sex; }
 	public int getWeight() { return weight; }
 	public int getHeight() { return height; }
-	public boolean getUseFacebook() { return this.useFacebook; }
-	public boolean getUseGoogleMaps() { return this.useGoogleMaps; }
+	public boolean getUseFacebook() { return useFacebook; }
+	public boolean getUseGoogleMaps() { return useGoogleMaps; }
 }

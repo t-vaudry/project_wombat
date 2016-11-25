@@ -7,4 +7,5 @@
     <color name="colorSubText">#343b44</color>
     <color name="colorBackground">#FFFFFF</color>
     <color name="colorNavigationDrawer">#EEEEEE</color>
+    <color name="colorFacebook">#3b5998</color>
 </resources>

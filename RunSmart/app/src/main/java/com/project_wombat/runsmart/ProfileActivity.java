@@ -279,7 +279,7 @@ public class ProfileActivity extends AppCompatActivity {
                 profile.setSex(editSex.getSelectedItem().toString().matches("Female"));
                 count++;
 
-                profile.setUseGoogleMaps(checkBox.isSelected());
+                profile.setUseGoogleMaps(checkBox.isChecked());
 
                 if(count == 5)
                 {

@@ -771,4 +771,38 @@ public class DBHandler extends SQLiteOpenHelper {
 		db.close();
 		return steps;
 	}
+
+	public Double getTotalDistance()
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+
+		String selectQuery = "SELECT SUM(" + KEY_DISTANCE +") FROM " + TABLE_RUNS;
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		if(cursor != null)
+			cursor.moveToFirst();
+
+		Double totalDistance = cursor.getDouble(0);
+
+		cursor.close();
+		db.close();
+		return totalDistance;
+	}
+
+	public int getTotalSteps()
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+
+		String selectQuery = "SELECT SUM(" + KEY_STEPS +") FROM " + TABLE_STEPS;
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		if(cursor != null)
+			cursor.moveToFirst();
+
+		int totalSteps = cursor.getInt(0);
+
+		cursor.close();
+		db.close();
+		return totalSteps;
+	}
 }

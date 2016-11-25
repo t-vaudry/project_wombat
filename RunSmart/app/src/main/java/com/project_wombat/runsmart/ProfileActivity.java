@@ -1,23 +1,36 @@
 package com.project_wombat.runsmart;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Switch;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
+
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.facebook.login.widget.ProfilePictureView;
 
 public class ProfileActivity extends AppCompatActivity {
     EditText editAge;
     EditText editName;
     EditText editWeight;
     EditText editHeight;
-    Switch editGender;
+    Spinner editSex;
     DBHandler dbHandler;
     Toast back_toast;
     Toast saved;
@@ -28,11 +41,58 @@ public class ProfileActivity extends AppCompatActivity {
     TextView valueBMR;
     private boolean editMode;
     MenuItem editItem;
+    CallbackManager callbackManager;
+    LoginButton loginButton;
+    ProfilePictureView profilePictureView;
+    CheckBox checkBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_profile);
+
+        profilePictureView = (ProfilePictureView) findViewById(R.id.image);
+
+        loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton.setReadPermissions("email");
+
+        // Callback registration
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                StaticData.getInstance().setUseFacebook(true);
+                profilePictureView.setProfileId(com.facebook.Profile.getCurrentProfile().getId());
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+            }
+        });
+
+        if(StaticData.getInstance().getUseFacebook())
+            profilePictureView.setProfileId(com.facebook.Profile.getCurrentProfile().getId());
+
+        // Other app specific specialization
+
+        AccessTokenTracker accessTokenTracker = new AccessTokenTracker()
+        {
+            @Override
+            protected void onCurrentAccessTokenChanged(AccessToken oldToken, AccessToken newToken) {
+                if (newToken == null){
+                    StaticData.getInstance().setUseFacebook(false);
+                    profilePictureView.setProfileId(null);
+                }
+            }
+        };
+        accessTokenTracker.startTracking();
 
         //toast message
         back_toast = Toast.makeText(this, R.string.back_error, Toast.LENGTH_SHORT);
@@ -44,14 +104,32 @@ public class ProfileActivity extends AppCompatActivity {
         editName = (EditText) findViewById(R.id.editName);
         editWeight = (EditText) findViewById(R.id.editWeight);
         editHeight = (EditText) findViewById(R.id.editHeight);
-        editGender = (Switch) findViewById(R.id.editGender);
+        editSex = (Spinner) findViewById(R.id.editSex);
 
         textBMI = (TextView) findViewById(R.id.textBMI);
         valueBMI = (TextView) findViewById(R.id.valueBMI);
         textBMR = (TextView) findViewById(R.id.textBMR);
         valueBMR = (TextView) findViewById(R.id.valueBMR);
 
+        checkBox = (CheckBox) findViewById(R.id.checkBox);
+
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                    StaticData.getInstance().setUseGoogleMaps(true);
+                else
+                    StaticData.getInstance().setUseGoogleMaps(false);
+            }
+        });
+
         dbHandler = new DBHandler(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -59,17 +137,17 @@ public class ProfileActivity extends AppCompatActivity {
     {
         super.onResume();
         editMode = false;
-        if(editItem != null)
-            editItem.setIcon(R.mipmap.ic_mode_edit_white_24dp);
 
         //checking if name is null
         if(dbHandler.getProfile().getId() == 1)
         {
+            if(editItem != null)
+                editItem.setIcon(R.mipmap.ic_mode_edit_white_24dp);
             Profile profile = dbHandler.getProfile();
 
             editAge.setText(String.valueOf(profile.getAge()));
             editName.setText(profile.getName());
-            editGender.setChecked(profile.getSex());
+            editSex.setSelection(profile.getSex() ? 1 : 0);
             editWeight.setText(String.valueOf(profile.getWeight()));
             editHeight.setText(String.valueOf(profile.getHeight()));
 
@@ -84,17 +162,22 @@ public class ProfileActivity extends AppCompatActivity {
             editName.setEnabled(false);
             editWeight.setEnabled(false);
             editHeight.setEnabled(false);
-            editGender.setEnabled(false);
+            editSex.setEnabled(false);
 
         }
         //if name is not null
         else
         {
+            if(editItem != null)
+                editItem.setIcon(R.mipmap.ic_save_white_24dp);
+
+            editMode = !editMode;
+
             editAge.setEnabled(true);
             editName.setEnabled(true);
             editWeight.setEnabled(true);
             editHeight.setEnabled(true);
-            editGender.setEnabled(true);
+            editSex.setEnabled(true);
 
             textBMI.setVisibility(View.INVISIBLE);
             valueBMI.setVisibility(View.INVISIBLE);
@@ -108,6 +191,8 @@ public class ProfileActivity extends AppCompatActivity {
     {
         getMenuInflater().inflate(R.menu.menu, menu);
         editItem = menu.findItem(R.id.edit);
+        if(editMode)
+            editItem.setIcon(R.mipmap.ic_save_white_24dp);
         return true;
     }
 
@@ -127,7 +212,7 @@ public class ProfileActivity extends AppCompatActivity {
                 editName.setEnabled(true);
                 editWeight.setEnabled(true);
                 editHeight.setEnabled(true);
-                editGender.setEnabled(true);
+                editSex.setEnabled(true);
 
                 textBMI.setVisibility(View.INVISIBLE);
                 valueBMI.setVisibility(View.INVISIBLE);
@@ -191,7 +276,7 @@ public class ProfileActivity extends AppCompatActivity {
                     count++;
                 }
 
-                profile.setSex(editGender.isChecked());
+                profile.setSex(editSex.getSelectedItem().toString().matches("Female"));
                 count++;
 
                 if(count == 5)
@@ -210,7 +295,7 @@ public class ProfileActivity extends AppCompatActivity {
                     editName.setEnabled(false);
                     editWeight.setEnabled(false);
                     editHeight.setEnabled(false);
-                    editGender.setEnabled(false);
+                    editSex.setEnabled(false);
 
                     calculateStats();
 

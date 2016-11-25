@@ -1,158 +1,233 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context="com.project_wombat.runsmart.ProfileActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10sp">
 
-    <TextView
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/background"
+            android:adjustViewBounds="true"
+            android:id="@+id/imageView" />
+
+        <com.facebook.login.widget.ProfilePictureView
+            android:id="@+id/image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/image_border"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="25sp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name"
+            android:textColor="@color/colorText"
+            android:id="@+id/name" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+            android:textColor="@color/colorText"
+            android:ems="10"
+            android:id="@+id/editName" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10sp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/age"
+                    android:textColor="@color/colorText"
+                    android:id="@+id/age" />
+
+                <EditText
+                    android:layout_width="@dimen/edit_text_width"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorText"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/editAge" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="45sp"
+                android:layout_height="match_parent"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sex"
+                    android:textColor="@color/colorText"
+                    android:id="@+id/sex" />
+
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10sp"
+                    android:id="@+id/editSex"
+                    android:entries="@array/sex_options"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10sp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weight"
+                    android:textColor="@color/colorText"
+                    android:id="@+id/weight" />
+
+                <EditText
+                    android:layout_width="@dimen/edit_text_width"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:textColor="@color/colorText"
+                    android:ems="10"
+                    android:id="@+id/editWeight" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="45sp"
+                android:layout_height="match_parent"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/height"
+                    android:textColor="@color/colorText"
+                    android:id="@+id/height" />
+
+                <EditText
+                    android:layout_width="@dimen/edit_text_width"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:textColor="@color/colorText"
+                    android:ems="10"
+                    android:id="@+id/editHeight" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:text="@string/BMI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorText"
+                    android:id="@+id/textBMI" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorText"
+                    android:id="@+id/valueBMI" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="145sp"
+                android:layout_height="match_parent"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:text="@string/BMR"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorText"
+                    android:id="@+id/textBMR" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorText"
+                    android:id="@+id/valueBMR" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/name"
-        android:textColor="@color/colorText"
-        android:id="@+id/name"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="38sp"
-        android:layout_marginStart="38sp"
-        android:layout_marginTop="38sp" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="13dp" />
 
-    <TextView
+    <CheckBox
+        android:text="@string/google_maps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/gender"
+        android:layout_gravity="center"
         android:textColor="@color/colorText"
-        android:id="@+id/gender"
-        android:layout_below="@+id/editAge"
-        android:layout_alignLeft="@+id/editAge"
-        android:layout_alignStart="@+id/editAge" />
+        android:id="@+id/checkBox"
+        android:checked="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/age"
-        android:textColor="@color/colorText"
-        android:id="@+id/age"
-        android:layout_below="@+id/editName"
-        android:layout_alignLeft="@+id/editName"
-        android:layout_alignStart="@+id/editName" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/weight"
-        android:textColor="@color/colorText"
-        android:id="@+id/weight"
-        android:layout_below="@+id/editAge"
-        android:layout_alignLeft="@+id/editAge"
-        android:layout_alignStart="@+id/editAge"
-        android:layout_marginTop="58sp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/height"
-        android:textColor="@color/colorText"
-        android:id="@+id/height"
-        android:layout_below="@+id/editWeight"
-        android:layout_alignLeft="@+id/editWeight"
-        android:layout_alignStart="@+id/editWeight" />
-
-    <EditText
-        android:layout_width="@dimen/edit_text_width"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorText"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/editAge"
-        android:layout_below="@+id/age"
-        android:layout_alignLeft="@+id/editName" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
-        android:textColor="@color/colorText"
-        android:ems="10"
-        android:id="@+id/editName"
-        android:layout_below="@+id/name"
-        android:layout_alignLeft="@+id/name"
-        android:layout_alignStart="@+id/name" />
-
-    <Switch
-        android:layout_width="@dimen/edit_text_width"
-        android:layout_height="wrap_content"
-        android:text="@string/male_female"
-        android:textColor="@color/colorText"
-        android:id="@+id/editGender"
-        android:checked="false"
-        android:layout_below="@+id/gender"
-        android:layout_alignLeft="@+id/gender"
-        android:layout_alignStart="@+id/gender"
-        android:layout_alignRight="@+id/editAge"
-        android:layout_alignEnd="@+id/editAge" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorText"
-        android:layout_below="@+id/textBMI"
-        android:layout_alignLeft="@+id/textBMI"
-        android:layout_alignStart="@+id/textBMI"
-        android:layout_marginTop="30sp"
-        android:id="@+id/valueBMI" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorText"
-        android:layout_alignBottom="@+id/valueBMI"
-        android:layout_alignLeft="@+id/textBMR"
-        android:layout_alignStart="@+id/textBMR"
-        android:id="@+id/valueBMR" />
-
-    <TextView
-        android:text="BMI"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorText"
-        android:id="@+id/textBMI"
-        android:layout_below="@+id/editHeight"
-        android:layout_alignLeft="@+id/editHeight"
-        android:layout_alignStart="@+id/editHeight" />
-
-    <TextView
-        android:text="BMR"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorText"
-        android:id="@+id/textBMR"
-        android:layout_below="@+id/editHeight"
-        android:layout_alignRight="@+id/editHeight"
-        android:layout_alignEnd="@+id/editHeight" />
-
-    <EditText
-        android:layout_width="@dimen/edit_text_width"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:textColor="@color/colorText"
-        android:ems="10"
-        android:id="@+id/editHeight"
-        android:layout_below="@+id/height"
-        android:layout_alignStart="@+id/height" />
-
-    <EditText
-        android:layout_width="@dimen/edit_text_width"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:textColor="@color/colorText"
-        android:ems="10"
-        android:id="@+id/editWeight"
-        android:layout_below="@+id/weight"
-        android:layout_alignStart="@+id/weight" />
-
-</RelativeLayout>
+</LinearLayout>

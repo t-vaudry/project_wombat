@@ -3,11 +3,13 @@
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="done">DONE</string>
+    <string name="facebook_app_id">701901049959272</string>
+    <string name="fb_login_protocol_scheme">fb701901049959272</string>
     <string name="add">Add</string>
     <string name="view_profile">View Profile</string>
     <string name="name">Name</string>
     <string name="age">Age</string>
-    <string name="gender">Gender</string>
+    <string name="sex">Sex</string>
     <string name="height">Height (cm)</string>
     <string name="weight">Weight (kg)</string>
     <string name="male_female">M/F</string>
@@ -26,10 +28,14 @@
     <string name="large_weight">Please enter weight between 0-200.</string>
     <string name="large_height">Please enter height between 1-215</string>
     <string name="BMI">BMI</string>
+    <string name="BMR">BMR</string>
     <string name="no_goal">This value cannot be empty.</string>
     <string name="goal_title">Current Goals:</string>
     <string name="add_goal">Add a Goal:</string>
     <string name="goal_zero">Goal cannot be set to 0.</string>
+    <string name="get_started">To get started, sign in with Facebook or create an offline profile.</string>
+    <string name="create_profile">Create an offline profile</string>
+    <string name="google_maps">Allow Google Maps</string>
 
     <string name="goal_type_prompt">Select Goal Type</string>
     <string-array name="goal_type_array">
@@ -74,6 +80,11 @@
 
     <string-array name="year_options">
         <item>2016</item>
+    </string-array>
+
+    <string-array name="sex_options">
+        <item>Male</item>
+        <item>Female</item>
     </string-array>
 
     <string-array name="run_options">

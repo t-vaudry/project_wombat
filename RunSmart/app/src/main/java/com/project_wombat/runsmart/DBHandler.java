@@ -457,7 +457,7 @@ public class DBHandler extends SQLiteOpenHelper {
             profile = new Profile(
             cursor.getString(1),
             Integer.parseInt(cursor.getString(2)),
-            Boolean.parseBoolean(cursor.getString(3)),
+            cursor.getString(3).matches("1"),
             Integer.parseInt(cursor.getString(4)),
             Integer.parseInt(cursor.getString(5))
             );

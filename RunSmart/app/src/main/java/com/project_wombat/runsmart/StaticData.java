@@ -16,6 +16,8 @@ public class StaticData {
     private boolean countSteps;
     private boolean goalChanged;
     private Lock goalLock = new ReentrantLock();
+    private boolean useFacebook;
+    private boolean useGoogleMaps;
 
     private StaticData()
     {
@@ -24,6 +26,8 @@ public class StaticData {
         pauseData = false;
         countSteps = false;
         pauseTime = 0;
+        useFacebook = false;
+        useGoogleMaps = true;
     }
 
     public static StaticData getInstance()
@@ -43,6 +47,8 @@ public class StaticData {
     public boolean getPauseData() { return this.pauseData; }
     public long getPauseTime() { return this.pauseTime; }
     public boolean getCountSteps() {return this.countSteps; }
+    public boolean getUseFacebook() { return this.useFacebook; }
+    public boolean getUseGoogleMaps() { return this.useGoogleMaps; }
     public boolean getGoalChanged()
     {
         goalLock.lock();
@@ -61,6 +67,8 @@ public class StaticData {
     {
         countSteps = val;
     }
+    public void setUseFacebook(boolean val) { useFacebook = val; }
+    public void setUseGoogleMaps(boolean val) { useGoogleMaps = val; }
     public void setGoalChanged(boolean val)
     {
         goalLock.lock();

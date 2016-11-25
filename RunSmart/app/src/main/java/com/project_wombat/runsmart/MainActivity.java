@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -192,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
         dbHandler = new DBHandler(this);
 
         //Set up walk listener
-        RelativeLayout relativeclick =(RelativeLayout)findViewById(R.id.walkLayout);
+        LinearLayout relativeclick =(LinearLayout) findViewById(R.id.walkLayout);
         relativeclick.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){

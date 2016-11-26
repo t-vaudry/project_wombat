@@ -54,11 +54,13 @@ public class StepCounter extends IntentService implements SensorEventListener {
         while(StaticData.getInstance().getCountSteps()) {
             intentUpdate.putExtra(EXTRA_KEY_STEPS, Integer.toString(count));
             sendBroadcast(intentUpdate);
+            StaticData.getInstance().setStepCount(count);
         }
         Steps steps = new Steps(new Date(), count);
         dbHandler.addSteps(steps);
         intentUpdate.putExtra(EXTRA_KEY_STEPS, "00000");
         sendBroadcast(intentUpdate);
+        StaticData.getInstance().setStepCount(0);
     }
 
     @Override

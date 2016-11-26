@@ -16,6 +16,9 @@ public class StaticData {
     private boolean countSteps;
     private boolean goalChanged;
     private Lock goalLock = new ReentrantLock();
+    private int stepCount;
+    private long currentRunTime;
+    private double runDistance;
 
     private StaticData()
     {
@@ -24,6 +27,8 @@ public class StaticData {
         pauseData = false;
         countSteps = false;
         pauseTime = 0;
+        stepCount = 0;
+        currentRunTime = 0;
     }
 
     public static StaticData getInstance()
@@ -50,6 +55,9 @@ public class StaticData {
         goalLock.unlock();
         return change;
     }
+    public int getStepCount() { return this.stepCount; }
+    public long getCurrentRunTime() { return this.currentRunTime; }
+    public double getRunDistance() { return this.runDistance; }
     public void setRunTime(long val) { runTime = val; }
     public void setCollectData(boolean val)
     {
@@ -67,7 +75,9 @@ public class StaticData {
         goalChanged = val;
         goalLock.unlock();
     }
-
+    public void setStepCount(int val) { stepCount = val; }
+    public void setCurrentRunTime(long val) { currentRunTime = val; }
+    public void setRunDistance(double val) { runDistance = val; }
     public boolean getAndSetGoalChanged()
     {
         goalLock.lock();

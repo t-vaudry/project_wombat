@@ -463,6 +463,7 @@ public class GoalsActivity extends AppCompatActivity {
             if (changed != null)
             {
                 loadCurrentGoals();
+                getProgress();
             }
         }
     }

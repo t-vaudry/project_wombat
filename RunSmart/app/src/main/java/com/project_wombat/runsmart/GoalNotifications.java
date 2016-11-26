@@ -80,6 +80,7 @@ public class GoalNotifications extends IntentService
                     //Walk
                     case 0:
                         count = dbHandler.getStepCountBounded(mGoals.get(i).getStart_date(), mGoals.get(i).getEndDate());
+                        count += StaticData.getInstance().getStepCount();
                         percentage = (int)((float)count/(float)mGoals.get(i).getValue() * 100);
                         notificationText += "Walk ";
                         notificationText += Integer.toString(mGoals.get(i).getValue());
@@ -88,6 +89,7 @@ public class GoalNotifications extends IntentService
                     //Run time
                     case 1:
                         count = (int)(dbHandler.getRunTimeBounded(mGoals.get(i).getStart_date(), mGoals.get(i).getEndDate()));
+                        count += StaticData.getInstance().getCurrentRunTime();
                         percentage = (int)((float)count/((float)mGoals.get(i).getValue()*60000) * 100);
                         notificationText += "Run ";
                         notificationText += Integer.toString(mGoals.get(i).getValue());
@@ -96,6 +98,7 @@ public class GoalNotifications extends IntentService
                     //Run distance
                     case 2:
                         count = (int)dbHandler.getRunDistanceBounded(mGoals.get(i).getStart_date(), mGoals.get(i).getEndDate());
+                        count += StaticData.getInstance().getRunDistance();
                         percentage = (int)((float)count/((float)mGoals.get(i).getValue()*1000) * 100);
                         notificationText += "Run ";
                         notificationText += Integer.toString(mGoals.get(i).getValue());
@@ -131,7 +134,7 @@ public class GoalNotifications extends IntentService
                                     .setSmallIcon(R.mipmap.ic_stars_white_24dp)
                                     .setContentTitle(notificationTitle)
                                     .setContentText(notificationText);
-// Creates an explicit intent for an Activity in your app
+/*// Creates an explicit intent for an Activity in your app
                     Intent resultIntent = new Intent(this, GoalsActivity.class);
 
 // The stack builder object will contain an artificial back stack for the
@@ -148,7 +151,7 @@ public class GoalNotifications extends IntentService
                                     0,
                                     PendingIntent.FLAG_UPDATE_CURRENT
                             );
-                    mBuilder.setContentIntent(resultPendingIntent);
+                    mBuilder.setContentIntent(resultPendingIntent);*/
                     NotificationManager mNotificationManager =
 
                             (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -172,12 +175,6 @@ public class GoalNotifications extends IntentService
                 intentUpdate.putExtra(EXTRA_KEY_DELETED, "true");
                 sendBroadcast(intentUpdate);
             }
-
-            //wait for X seconds
-            try{
-                Thread.sleep(5000);
-            }
-            catch(InterruptedException e) {}
         }
     }
 }

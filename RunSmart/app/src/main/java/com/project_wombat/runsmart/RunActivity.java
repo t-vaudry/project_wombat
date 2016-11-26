@@ -30,6 +30,7 @@ public class RunActivity extends AppCompatActivity {
     //Text views
     TextView distanceView;
 
+    //TODO Send in run time for goal notification
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

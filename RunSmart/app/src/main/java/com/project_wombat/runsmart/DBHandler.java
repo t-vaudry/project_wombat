@@ -149,20 +149,22 @@ public class DBHandler extends SQLiteOpenHelper {
 
 		String selectQuery = "SELECT * FROM " + TABLE_RUNS + " WHERE " + KEY_TIME_STAMP + " = " + Long.toString(time_stamp.getTime()/1000);
 		Cursor cursor = db.rawQuery(selectQuery, null);
+		Run run = null;
 
 		// looping through all rows and adding to list
-		if(cursor != null)
+		if(cursor.getCount() != 0) {
 			cursor.moveToFirst();
 
-		Run run = new Run(
-		new Date(Long.parseLong(cursor.getString(0))*1000),
-		cursor.getDouble(1),
-		cursor.getLong(2),
-		cursor.getDouble(3),
-		cursor.getDouble(4),
-		cursor.getDouble(5),
-		cursor.getDouble(6)
-		);
+			run = new Run(
+					new Date(Long.parseLong(cursor.getString(0)) * 1000),
+					cursor.getDouble(1),
+					cursor.getLong(2),
+					cursor.getDouble(3),
+					cursor.getDouble(4),
+					cursor.getDouble(5),
+					cursor.getDouble(6)
+			);
+		}
 
         cursor.close();
 		db.close(); // Close database connection
@@ -681,7 +683,7 @@ public class DBHandler extends SQLiteOpenHelper {
 	{
 		SQLiteDatabase db = this.getReadableDatabase();
 
-		String selectQuery = "SELECT TOP 1 * FROM " + TABLE_RUNS + " ORDER BY " + KEY_DISTANCE + " DESC";
+		String selectQuery = "SELECT * FROM " + TABLE_RUNS + " ORDER BY " + KEY_DISTANCE + " DESC LIMIT 1";
 		Cursor cursor = db.rawQuery(selectQuery, null);
 
 		if(cursor != null)
@@ -706,7 +708,7 @@ public class DBHandler extends SQLiteOpenHelper {
 	{
 		SQLiteDatabase db = this.getReadableDatabase();
 
-		String selectQuery = "SELECT TOP 1 * FROM " + TABLE_RUNS + " ORDER BY " + KEY_DURATION + " DESC";
+		String selectQuery = "SELECT * FROM " + TABLE_RUNS + " ORDER BY " + KEY_DURATION + " DESC LIMIT 1";
 		Cursor cursor = db.rawQuery(selectQuery, null);
 
 		if(cursor != null)
@@ -731,7 +733,7 @@ public class DBHandler extends SQLiteOpenHelper {
 	{
 		SQLiteDatabase db = this.getReadableDatabase();
 
-		String selectQuery = "SELECT TOP 1 * FROM " + TABLE_RUNS + " ORDER BY " + KEY_AVERAGE_SPEED + " DESC";
+		String selectQuery = "SELECT * FROM " + TABLE_RUNS + " ORDER BY " + KEY_AVERAGE_SPEED + " DESC LIMIT 1";
 		Cursor cursor = db.rawQuery(selectQuery, null);
 
 		if(cursor != null)
@@ -756,7 +758,7 @@ public class DBHandler extends SQLiteOpenHelper {
 	{
 		SQLiteDatabase db = this.getReadableDatabase();
 
-		String selectQuery = "SELECT TOP 1 * FROM " + TABLE_STEPS + " ORDER BY " + KEY_STEPS + " DESC";
+		String selectQuery = "SELECT * FROM " + TABLE_STEPS + " ORDER BY " + KEY_STEPS + " DESC LIMIT 1";
 		Cursor cursor = db.rawQuery(selectQuery, null);
 
 		if(cursor != null)

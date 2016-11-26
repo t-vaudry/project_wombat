@@ -9,6 +9,7 @@
     <string name="view_profile">View Profile</string>
     <string name="name">Name</string>
     <string name="age">Age</string>
+    <string name="gender">Gender</string>
     <string name="sex">Sex</string>
     <string name="height">Height (cm)</string>
     <string name="weight">Weight (kg)</string>
@@ -56,6 +57,13 @@
     </string-array>
     <string name="walk">Walk</string>
     <string name="run">Run</string>
+    <string name="highscores">HIGHSCORES</string>
+    <string name="max_duration">Max duration</string>
+    <string name="max_distance">Max distance</string>
+    <string name="max_speed">Max speed</string>
+    <string name="max_steps">Max steps</string>
+    <string name="all_time_steps">All time steps</string>
+    <string name="all_time_distance">All time distance</string>
     <string name="workout_details">WORKOUT DETAILS</string>
     <string name="duration">Total duration</string>
     <string name="calories">Total calories</string>

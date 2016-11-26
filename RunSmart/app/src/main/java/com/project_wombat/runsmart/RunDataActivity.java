@@ -1,19 +1,14 @@
 package com.project_wombat.runsmart;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Chronometer;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.CallbackManager;
@@ -32,7 +27,7 @@ public class RunDataActivity extends AppCompatActivity {
     private TextView duration;
     private TextView distance;
     private TextView speed;
-    private Chronometer timer;
+    private TextView timer;
     private TextView calories;
     private Button mapButton;
     private ShareButton shareButton;
@@ -69,7 +64,7 @@ public class RunDataActivity extends AppCompatActivity {
         duration = (TextView) findViewById(R.id.duration);
         distance = (TextView) findViewById(R.id.distance);
         speed = (TextView) findViewById(R.id.speed);
-        timer = (Chronometer) findViewById(R.id.durationClock);
+        timer = (TextView) findViewById(R.id.durationClock);
         calories = (TextView) findViewById(R.id.calories);
 
         shareButton = (ShareButton) findViewById(R.id.shareButton);
@@ -110,8 +105,13 @@ public class RunDataActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+        Run run = null;
 
-        Run run = dbHandler.getRun(runDate);
+        while(run == null)
+        {
+            run = dbHandler.getRun(runDate);
+        }
+
         String str;
 
         date.setText(DateUtils.display(run.getTimeStamp(), true));
@@ -121,8 +121,8 @@ public class RunDataActivity extends AppCompatActivity {
         distance.setText(str);
         str = String.format("%.2f",run.getAvgSpeed()) + " km/h";
         speed.setText(str);
-        timer.stop();
-        timer.setBase(timer.getBase()-run.getDuration());
+        str = DateUtils.formatTime(run.getDuration());
+        timer.setText(str);
         str = Double.toString(((3.5*dbHandler.getProfile().getWeight()*8)/200)*(run.getDuration()/60000)) + " cal";
         calories.setText(str);
 
@@ -137,8 +137,6 @@ public class RunDataActivity extends AppCompatActivity {
         }
         else
             shareButton.setVisibility(View.INVISIBLE);
-
-
     }
 
     @Override

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
+import java.util.Date;
 
 public class RunActivity extends AppCompatActivity {
 
@@ -166,7 +167,6 @@ public class RunActivity extends AppCompatActivity {
     public void stopRun(View view)
     {
         StaticData.getInstance().setCollectData(false);
-        StaticData.getInstance().setPauseData(true);
         chronometer.stop();
         chronometer.setBase(SystemClock.elapsedRealtime());
         timeWhenPaused = 0;

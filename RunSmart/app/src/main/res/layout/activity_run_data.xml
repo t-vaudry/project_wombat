@@ -72,7 +72,7 @@
             android:layout_marginStart="10sp"
             android:orientation="vertical">
 
-            <Chronometer
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/durationClock"
@@ -97,6 +97,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingEnd="4sp"
             android:src="@mipmap/speedometer48"/>
 
         <LinearLayout

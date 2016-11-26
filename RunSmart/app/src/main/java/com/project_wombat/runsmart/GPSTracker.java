@@ -214,8 +214,7 @@ public class GPSTracker extends IntentService implements LocationListener {
         RunData rd;
         while (StaticData.getInstance().getCollectData()) {
             now = new Date();
-            while(!StaticData.getInstance().getPauseData()) {
-
+            while(!StaticData.getInstance().getPauseData() && StaticData.getInstance().getCollectData()) {
                 timeOnPause += now.getTime() - prev.getTime();
                 runTime += (new Date()).getTime() - prev.getTime();
                 getLocation();
@@ -255,6 +254,11 @@ public class GPSTracker extends IntentService implements LocationListener {
 
             StaticData.getInstance().setRunDistance(0.0);
             StaticData.getInstance().setCurrentRunTime(0);
+        }
+
+        if(StaticData.getInstance().getPauseData())
+        {
+            timeOnPause += now.getTime() - prev.getTime();
         }
 
         //Log entire run to database

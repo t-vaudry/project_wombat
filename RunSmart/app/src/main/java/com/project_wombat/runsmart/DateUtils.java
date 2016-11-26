@@ -18,6 +18,7 @@ public class DateUtils {
     private static final DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
     private static final DateFormat displayDate = new SimpleDateFormat("EEE, MMM d, yyyy");
     private static final DateFormat displayTime = new SimpleDateFormat("EEE, MMM d, yyyy HH:mm:ss");
+    private static final DateFormat timeFormat = new SimpleDateFormat("mm:ss");
 
     public static Date parse(String toParse)
     {
@@ -45,5 +46,10 @@ public class DateUtils {
             return displayTime.format(new Date(toFormat*1000));
         else
             return displayDate.format(new Date(toFormat*1000));
+    }
+
+    public static String formatTime(long toFormat)
+    {
+        return timeFormat.format(new Date(toFormat));
     }
 }

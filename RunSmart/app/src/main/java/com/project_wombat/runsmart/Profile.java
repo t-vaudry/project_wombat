@@ -24,7 +24,7 @@ public class Profile {
 		this.weight = weight;
 		this.height = height;
 		this.useFacebook = facebook;
-		this.useGoogleMaps = google_maps;
+		this.useGoogleMaps = false;
 	}
 
 	public void setName(String name) { this.name = name; }
@@ -33,7 +33,6 @@ public class Profile {
 	public void setWeight(int weight) { this.weight = weight; }
 	public void setHeight(int height) {	this.height = height; }
 	public void setUseFacebook(boolean val) { useFacebook = val; }
-	public void setUseGoogleMaps(boolean val) { useGoogleMaps = val; }
 
 	public int getId() { return id; }
 	public String getName()	{ return name; }
@@ -42,5 +41,5 @@ public class Profile {
 	public int getWeight() { return weight; }
 	public int getHeight() { return height; }
 	public boolean getUseFacebook() { return useFacebook; }
-	public boolean getUseGoogleMaps() { return useGoogleMaps; }
+	public boolean getUseGoogleMaps() { return false; }
 }

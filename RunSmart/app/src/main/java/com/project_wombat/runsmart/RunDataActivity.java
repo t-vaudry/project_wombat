@@ -1,8 +1,9 @@
 package com.project_wombat.runsmart;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.os.SystemClock;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -47,7 +48,7 @@ public class RunDataActivity extends AppCompatActivity {
         if(extras.getBoolean("RUN_ACTIVITY", false))
         {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            if(!dbHandler.getProfile().getUseGoogleMaps())
+            if (ContextCompat.checkSelfPermission( this, Manifest.permission.MAPS_RECEIVE ) != PackageManager.PERMISSION_GRANTED )
                 mapButton.setVisibility(View.GONE);
         }
         else

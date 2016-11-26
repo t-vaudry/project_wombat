@@ -1,17 +1,15 @@
 package com.project_wombat.runsmart;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.LocationManager;
-import android.net.Uri;
-import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 public class LoadScreenActivity extends AppCompatActivity {
+    private final int MY_PERMISSIONS_REQUEST_LOCATION = 0;
+    private final int MY_PERMISSIONS_REQUEST_MAPS = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,50 +21,77 @@ public class LoadScreenActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        LocationManager locationManager = (LocationManager) this
-                .getSystemService(LOCATION_SERVICE);
+        int count = 0;
+        String[] permissions = new String[2];
+        int[] grantResults = new int[2];
 
         if (ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED )
         {
             //permissions not set
-
-            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-            dialog.setMessage("Location permissions not set for RunSmart. Please allow to continue.");
-            dialog.setPositiveButton("Open Settings", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-
-                    final Intent i = new Intent();
-                    i.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                    i.addCategory(Intent.CATEGORY_DEFAULT);
-                    i.setData(Uri.parse("package:" + getPackageName()));
-                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-
-                    startActivity(i);
-                }
-            });
-            dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                    final Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                    startActivity(intent);
-
-                }
-            });
-            dialog.show();
+            permissions[count] = android.Manifest.permission.ACCESS_COARSE_LOCATION;
+            grantResults[count] = MY_PERMISSIONS_REQUEST_LOCATION;
+            count++;
         }
-        else
+
+        if (ContextCompat.checkSelfPermission( this, Manifest.permission.MAPS_RECEIVE ) != PackageManager.PERMISSION_GRANTED )
         {
-            Intent intent = new Intent(this, MainActivity.class);
-            try{
-                Thread.sleep(500);
+            //permissions not set
+            permissions[count] = Manifest.permission.MAPS_RECEIVE;
+            grantResults[count] = MY_PERMISSIONS_REQUEST_MAPS;
+            count++;
+        }
+
+        if(count != 0)
+        {
+            if(count == 1)
+            {
+                ActivityCompat.requestPermissions(this,
+                        new String[] { permissions[0] },
+                        grantResults[0]);
             }
-            catch(InterruptedException e) {}
+            else
+            {
+                ActivityCompat.requestPermissions(this,
+                        permissions,
+                        grantResults[0]);
+            }
+        }
+        else {
+            Intent intent = new Intent(this, MainActivity.class);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+            }
             startActivity(intent);
             finish();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_LOCATION: {
+                Intent intent = new Intent(this, MainActivity.class);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                }
+                startActivity(intent);
+                finish();
+            }
+            case MY_PERMISSIONS_REQUEST_MAPS: {
+                Intent intent = new Intent(this, MainActivity.class);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                }
+                startActivity(intent);
+                finish();
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
         }
     }
 }

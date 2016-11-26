@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -44,7 +45,7 @@ public class NoProfileActivity extends AppCompatActivity {
 
             @Override
             public void onError(FacebookException exception) {
-                // App code
+                Toast.makeText(getApplicationContext(), "Error logging into Facebook", Toast.LENGTH_SHORT).show();
             }
         });
     }

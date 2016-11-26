@@ -224,23 +224,6 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10sp"
-        android:layout_gravity="center_horizontal">
-
-        <CheckBox
-            android:text="@string/google_maps"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="@color/colorText"
-            android:id="@+id/checkBox"
-            android:checked="true" />
-
-    </LinearLayout>
-
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"
         android:layout_width="wrap_content"

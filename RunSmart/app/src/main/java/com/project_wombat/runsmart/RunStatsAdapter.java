@@ -3,15 +3,19 @@ package com.project_wombat.runsmart;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.view.Gravity;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.provider.Settings;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class RunStatsAdapter extends ArrayAdapter<String> {
 
@@ -58,15 +62,42 @@ public class RunStatsAdapter extends ArrayAdapter<String> {
         mapView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(new DBHandler(context).getProfile().getUseGoogleMaps()) {
-                    Intent intent = new Intent(context, MapActivity.class);
-                    intent.putExtra("TIME_STAMP", DateUtils.parse(runArrayList.get(position)).getTime());
-                    context.startActivity(intent);
+                if (ContextCompat.checkSelfPermission( context, Manifest.permission.MAPS_RECEIVE ) != PackageManager.PERMISSION_GRANTED )
+                {
+                    //permissions not set
+
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                    dialog.setMessage("Google Maps permissions not set for RunSmart. Please allow to continue.");
+                    dialog.setPositiveButton("Open Settings", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+
+                            final Intent i = new Intent();
+                            i.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                            i.addCategory(Intent.CATEGORY_DEFAULT);
+                            i.setData(Uri.parse("package:" + context.getPackageName()));
+                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+
+                            context.startActivity(i);
+                        }
+                    });
+                    dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                            // TODO Auto-generated method stub
+
+                        }
+                    });
+                    dialog.show();
                 }
                 else
                 {
-                    Toast toast = Toast.makeText(context, "Google Maps disabled.\nGo to Profile to change your settings.", Toast.LENGTH_LONG);
-                    toast.show();
+                    Intent intent = new Intent(context, MapActivity.class);
+                    intent.putExtra("TIME_STAMP", DateUtils.parse(runArrayList.get(position)).getTime());
+                    context.startActivity(intent);
                 }
             }
         });

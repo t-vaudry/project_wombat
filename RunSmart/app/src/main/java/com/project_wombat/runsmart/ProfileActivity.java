@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -44,7 +43,6 @@ public class ProfileActivity extends AppCompatActivity {
     CallbackManager callbackManager;
     LoginButton loginButton;
     ProfilePictureView profilePictureView;
-    CheckBox checkBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,8 +113,6 @@ public class ProfileActivity extends AppCompatActivity {
         valueBMI = (TextView) findViewById(R.id.valueBMI);
         textBMR = (TextView) findViewById(R.id.textBMR);
         valueBMR = (TextView) findViewById(R.id.valueBMR);
-
-        checkBox = (CheckBox) findViewById(R.id.checkBox);
     }
 
     @Override
@@ -143,7 +139,6 @@ public class ProfileActivity extends AppCompatActivity {
             editSex.setSelection(profile.getSex() ? 1 : 0);
             editWeight.setText(String.valueOf(profile.getWeight()));
             editHeight.setText(String.valueOf(profile.getHeight()));
-            checkBox.setChecked(profile.getUseGoogleMaps());
 
             calculateStats();
 
@@ -158,7 +153,6 @@ public class ProfileActivity extends AppCompatActivity {
             editWeight.setEnabled(false);
             editHeight.setEnabled(false);
             editSex.setEnabled(false);
-            checkBox.setEnabled(false);
 
         }
         //if name is not null
@@ -174,7 +168,6 @@ public class ProfileActivity extends AppCompatActivity {
             editWeight.setEnabled(true);
             editHeight.setEnabled(true);
             editSex.setEnabled(true);
-            checkBox.setEnabled(true);
 
             textBMI.setVisibility(View.INVISIBLE);
             valueBMI.setVisibility(View.INVISIBLE);
@@ -211,7 +204,6 @@ public class ProfileActivity extends AppCompatActivity {
                 editWeight.setEnabled(true);
                 editHeight.setEnabled(true);
                 editSex.setEnabled(true);
-                checkBox.setEnabled(true);
 
                 textBMI.setVisibility(View.INVISIBLE);
                 valueBMI.setVisibility(View.INVISIBLE);
@@ -279,8 +271,6 @@ public class ProfileActivity extends AppCompatActivity {
                 profile.setSex(editSex.getSelectedItem().toString().matches("Female"));
                 count++;
 
-                profile.setUseGoogleMaps(checkBox.isChecked());
-
                 if(count == 5)
                 {
                     item.setIcon(R.mipmap.ic_mode_edit_white_24dp);
@@ -298,7 +288,6 @@ public class ProfileActivity extends AppCompatActivity {
                     editWeight.setEnabled(false);
                     editHeight.setEnabled(false);
                     editSex.setEnabled(false);
-                    checkBox.setEnabled(false);
 
                     calculateStats();
 

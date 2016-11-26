@@ -209,14 +209,12 @@ public class GPSTracker extends IntentService implements LocationListener {
         now = new Date();
         prev = new Date();
         long timeOnPause = 0;
-        long runTime = 0;
 
         RunData rd;
         while (StaticData.getInstance().getCollectData()) {
             now = new Date();
             while(!StaticData.getInstance().getPauseData() && StaticData.getInstance().getCollectData()) {
                 timeOnPause += now.getTime() - prev.getTime();
-                runTime += (new Date()).getTime() - prev.getTime();
                 getLocation();
 
                 //Set now to current time
@@ -235,7 +233,7 @@ public class GPSTracker extends IntentService implements LocationListener {
                 curr_distance += distanceDifferential;
 
                 StaticData.getInstance().setRunDistance(distanceDifferential);
-                StaticData.getInstance().setCurrentRunTime(runTime);
+                StaticData.getInstance().setCurrentRunTime(now.getTime() - beginningOfDataCollection.getTime() - timeOnPause);
 
                 Intent intentUpdate = new Intent();
                 intentUpdate.setAction(ACTION_UPDATE);
@@ -251,9 +249,6 @@ public class GPSTracker extends IntentService implements LocationListener {
                 prev_longitude = curr_longitude;
                 prev = now;
             }
-
-            StaticData.getInstance().setRunDistance(0.0);
-            StaticData.getInstance().setCurrentRunTime(0);
         }
 
         if(StaticData.getInstance().getPauseData())
@@ -264,6 +259,9 @@ public class GPSTracker extends IntentService implements LocationListener {
         //Log entire run to database
         Run run = new Run(beginningOfDataCollection, curr_distance, now.getTime() - beginningOfDataCollection.getTime() - timeOnPause, (curr_distance / 1000.0) / ((now.getTime() - beginningOfDataCollection.getTime() - timeOnPause) / 3600000.0), 0.0, 0.0, 0.0);
         dbHandler.addRun(run);
+
+        StaticData.getInstance().setRunDistance(0.0);
+        StaticData.getInstance().setCurrentRunTime(0);
     }
 
     @Override

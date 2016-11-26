@@ -15,7 +15,17 @@ public class Run {
     private double heart_rate_before;
     private double heart_rate_after;
 
-    public Run(){}
+    public Run()
+    {
+        this.time_stamp = 0;
+        this.distance = 0;
+        this.duration = 0;
+        this.avg_speed = 0;
+        this.top_speed = 0;
+        this.heart_rate_after = 0;
+        this.heart_rate_before = 0;
+    }
+
     public Run(Date time_stamp, double distance, long duration, double avg_speed, double top_speed, double heart_rate_before, double heart_rate_after)
     {
         this.time_stamp = time_stamp.getTime()/1000;

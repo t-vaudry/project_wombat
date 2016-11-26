@@ -11,7 +11,12 @@ public class Steps {
     private long time_stamp;
     private int steps;
 
-    public Steps(){}
+    public Steps()
+    {
+        this.time_stamp = 0;
+        this.steps = 0;
+    }
+
     public Steps(Date time_stamp, int steps)
     {
         Calendar now = Calendar.getInstance();

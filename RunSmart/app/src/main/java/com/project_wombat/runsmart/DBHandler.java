@@ -688,6 +688,11 @@ public class DBHandler extends SQLiteOpenHelper {
 
 		if(cursor != null)
 			cursor.moveToFirst();
+		else
+			return new Run();
+
+		if (cursor.getCount() == 0)
+			return new Run();
 
 		Run run = new Run(
 				new Date(Long.parseLong(cursor.getString(0))*1000),
@@ -713,6 +718,11 @@ public class DBHandler extends SQLiteOpenHelper {
 
 		if(cursor != null)
 			cursor.moveToFirst();
+		else
+			return new Run();
+
+		if (cursor.getCount() == 0)
+			return new Run();
 
 		Run run = new Run(
 				new Date(Long.parseLong(cursor.getString(0))*1000),
@@ -738,6 +748,11 @@ public class DBHandler extends SQLiteOpenHelper {
 
 		if(cursor != null)
 			cursor.moveToFirst();
+		else
+			return new Run();
+
+		if (cursor.getCount() == 0)
+			return new Run();
 
 		Run run = new Run(
 				new Date(Long.parseLong(cursor.getString(0))*1000),
@@ -763,6 +778,11 @@ public class DBHandler extends SQLiteOpenHelper {
 
 		if(cursor != null)
 			cursor.moveToFirst();
+		else
+			return new Steps();
+
+		if (cursor.getCount() == 0)
+			return new Steps();
 
 		Steps steps = new Steps(
 				new Date(Long.parseLong(cursor.getString(0))*1000),
@@ -783,6 +803,11 @@ public class DBHandler extends SQLiteOpenHelper {
 
 		if(cursor != null)
 			cursor.moveToFirst();
+		else
+			return 0.0;
+
+		if (cursor.getCount() == 0)
+			return 0.0;
 
 		Double totalDistance = cursor.getDouble(0);
 
@@ -800,6 +825,10 @@ public class DBHandler extends SQLiteOpenHelper {
 
 		if(cursor != null)
 			cursor.moveToFirst();
+		else return 0;
+
+		if (cursor.getCount() == 0)
+			return 0;
 
 		int totalSteps = cursor.getInt(0);
 
